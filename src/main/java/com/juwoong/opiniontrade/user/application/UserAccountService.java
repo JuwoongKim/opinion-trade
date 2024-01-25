@@ -11,10 +11,10 @@ import com.juwoong.opiniontrade.user.domain.repository.UserRepository;
 
 @Service
 @Transactional(readOnly = true)
-public class UserService {
+public class UserAccountService {
 	private final UserRepository userRepository;
 
-	public UserService(UserRepository userRepository) {
+	public UserAccountService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 

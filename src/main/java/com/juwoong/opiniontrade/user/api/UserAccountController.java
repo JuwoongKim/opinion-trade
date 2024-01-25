@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.juwoong.opiniontrade.user.api.request.LoginRequest;
 import com.juwoong.opiniontrade.user.api.request.SignUpRequest;
-import com.juwoong.opiniontrade.user.application.UserService;
+import com.juwoong.opiniontrade.user.application.UserAccountService;
 import com.juwoong.opiniontrade.user.application.response.LoginResponse;
 import com.juwoong.opiniontrade.user.application.response.SignUpResponse;
 import com.juwoong.opiniontrade.user.domain.Email;
@@ -17,10 +17,10 @@ import com.juwoong.opiniontrade.user.domain.Password;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
-	private final UserService userService;
+public class UserAccountController {
+	private final UserAccountService userService;
 
-	public UserController(UserService userService) {
+	public UserAccountController(UserAccountService userService) {
 		this.userService = userService;
 	}
 
