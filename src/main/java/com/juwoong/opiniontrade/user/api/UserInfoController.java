@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.juwoong.opiniontrade.user.api.request.ActivityInfoRequest;
 import com.juwoong.opiniontrade.user.api.request.ProfileInfoRequest;
 import com.juwoong.opiniontrade.user.application.UserInfoService;
+import com.juwoong.opiniontrade.user.application.response.ActivityInfoResponse;
 import com.juwoong.opiniontrade.user.application.response.ProfileInfoResponse;
+import com.juwoong.opiniontrade.user.domain.ActivityInfo;
 import com.juwoong.opiniontrade.user.domain.ProfileInfo;
 
 @RestController
@@ -39,5 +42,16 @@ public class UserInfoController {
 		ProfileInfoResponse profileInfoResponse = userInfoService.getProfileInfo(userId);
 
 		return ResponseEntity.ok(profileInfoResponse);
+	}
+
+	@PostMapping("/{userId}/activity")
+	public ResponseEntity<ActivityInfoResponse> updateActivityInfo(
+		@PathVariable Long userId,
+		@RequestBody ActivityInfoRequest activityInfoRequest
+	) {
+		ActivityInfo activityInfo = activityInfoRequest.activityInfo();
+		ActivityInfoResponse activityInfoResponse = userInfoService.updateActivityInfo(userId, activityInfo);
+
+		return new ResponseEntity<>(activityInfoResponse, HttpStatus.CREATED);
 	}
 }
