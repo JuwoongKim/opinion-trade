@@ -3,6 +3,7 @@ package com.juwoong.opiniontrade.user.application;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.juwoong.opiniontrade.user.application.response.LoginResponse;
 import com.juwoong.opiniontrade.user.application.response.SignUpResponse;
 import com.juwoong.opiniontrade.user.domain.Email;
 import com.juwoong.opiniontrade.user.domain.Password;
@@ -19,11 +20,18 @@ public class UserService {
 
 	@Transactional
 	public SignUpResponse signUp(Email email, Password password) {
-		// 검증
 		// new User(email, password)
 		// save
 
 		Long tempUserId = 1L;
 		return new SignUpResponse(tempUserId);
+	}
+
+	public LoginResponse login(Email email, Password password) {
+		// findByEmailAndPassword(email)
+		// validatePassword(password)
+
+		Long tempUserId = 1L;
+		return new LoginResponse(tempUserId);
 	}
 }

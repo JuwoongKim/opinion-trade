@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.juwoong.opiniontrade.user.api.request.LoginRequest;
 import com.juwoong.opiniontrade.user.api.request.SignUpRequest;
 import com.juwoong.opiniontrade.user.application.UserService;
+import com.juwoong.opiniontrade.user.application.response.LoginResponse;
 import com.juwoong.opiniontrade.user.application.response.SignUpResponse;
 import com.juwoong.opiniontrade.user.domain.Email;
 import com.juwoong.opiniontrade.user.domain.Password;
@@ -29,5 +31,14 @@ public class UserController {
 		SignUpResponse signUpResponse = userService.signUp(email, password);
 
 		return new ResponseEntity<>(signUpResponse, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+		Email email = loginRequest.email();
+		Password password = loginRequest.password();
+		LoginResponse loginResponse = userService.login(email, password);
+
+		return ResponseEntity.ok(loginResponse);
 	}
 }
