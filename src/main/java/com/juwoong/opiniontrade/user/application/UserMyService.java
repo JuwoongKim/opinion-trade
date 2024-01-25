@@ -28,4 +28,18 @@ public class UserMyService {
 		List<FriendResponse> friendResponses = friends.stream().map(friend -> new FriendResponse(friend)).toList();
 		return friendResponses;
 	}
+
+	@Transactional
+	public FriendResponse addFriend(Long userId, Friend friend) {
+		// find(userId);
+		// user.addFriend(friend);
+
+		return new FriendResponse(friend);
+	}
+
+	@Transactional
+	public void removeFriend(Long friendId) {
+		// find(userId);
+		// user.removeFriend(friendId);
+	}
 }
