@@ -23,4 +23,12 @@ public class UserInfoService {
 
 		return new ProfileInfoResponse(profileInfo);
 	}
+
+	public ProfileInfoResponse getProfileInfo(Long userId) {
+		// find(userId);
+		// ProfileInfo profileInfo = user.getProfileInfo();
+
+		ProfileInfo profileInfo = new ProfileInfo();
+		return new ProfileInfoResponse(profileInfo);
+	}
 }
