@@ -5,10 +5,11 @@ import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
 @Embeddable
+@Getter
 public class Friend {
 
 	@Column(name = "firend_id", nullable = false)
-	private String friendId;
+	private Long friendId;
 
 	@Column(name = "friend_name", nullable = false)
 	private String friendName;
@@ -16,7 +17,7 @@ public class Friend {
 	protected Friend() {
 	}
 
-	public Friend(String friendId, String friendName) {
+	public Friend(Long friendId, String friendName) {
 		this.friendId = friendId;
 		this.friendName = friendName;
 	}
