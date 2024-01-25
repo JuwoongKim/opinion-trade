@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.juwoong.opiniontrade.user.api.request.FriendRequest;
+import com.juwoong.opiniontrade.user.api.request.ScrapSurveyRequest;
 import com.juwoong.opiniontrade.user.application.UserMyService;
 import com.juwoong.opiniontrade.user.application.response.FriendResponse;
+import com.juwoong.opiniontrade.user.application.response.ScrapSurveyResponse;
 import com.juwoong.opiniontrade.user.domain.Friend;
+import com.juwoong.opiniontrade.user.domain.ScrapSurvey;
 
 @RestController
 @RequestMapping("/users/my")
@@ -47,7 +50,34 @@ public class UserMyController {
 		@PathVariable Long userId,
 		@PathVariable Long friendId
 	) {
-		userMyService.removeFriend(friendId);
+		userMyService.removeFriend(userId, friendId);
+
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/{userId}/scrap-survey")
+	public ResponseEntity<List<ScrapSurveyResponse>> getScrapSurveys(@PathVariable Long userId) {
+		List<ScrapSurveyResponse> scrapSurveyResponses = userMyService.getScrapSurveys(userId);
+		return ResponseEntity.ok(scrapSurveyResponses);
+	}
+
+	@PostMapping("/{userId}/scrap-survey")
+	public ResponseEntity<ScrapSurveyResponse> addScrapSurvey(
+		@PathVariable Long userId,
+		@RequestBody ScrapSurveyRequest scrapSurveyRequest
+	) {
+		ScrapSurvey scrapSurvey = scrapSurveyRequest.scrapSurvey();
+		ScrapSurveyResponse scrapSurveyResponse = userMyService.addScrapSurvey(userId, scrapSurvey);
+
+		return ResponseEntity.ok(scrapSurveyResponse);
+	}
+
+	@DeleteMapping("/{userId}/scrap-survey/{scrapSurveyId}")
+	public ResponseEntity<Void> removeScrapSurvey(
+		@PathVariable Long userId,
+		@PathVariable Long scrapSurveyId
+	) {
+		userMyService.removeScrapSurvey(userId, scrapSurveyId);
 
 		return ResponseEntity.noContent().build();
 	}
