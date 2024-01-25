@@ -54,4 +54,11 @@ public class UserInfoController {
 
 		return new ResponseEntity<>(activityInfoResponse, HttpStatus.CREATED);
 	}
+
+	@GetMapping("/{userId}/activity")
+	public ResponseEntity<ActivityInfoResponse> getActivityInfo(@PathVariable Long userId) {
+		ActivityInfoResponse activityInfoResponse = userInfoService.getActivityInfo(userId);
+
+		return ResponseEntity.ok(activityInfoResponse);
+	}
 }

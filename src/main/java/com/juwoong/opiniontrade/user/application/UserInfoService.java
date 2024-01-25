@@ -41,4 +41,12 @@ public class UserInfoService {
 
 		return new ActivityInfoResponse(activityInfo);
 	}
+
+	public ActivityInfoResponse getActivityInfo(Long userId) {
+		// find(userId);
+		// ProfileInfo profileInfo = user.getProfileInfo();
+
+		ActivityInfo activityInfo = new ActivityInfo();
+		return new ActivityInfoResponse(activityInfo);
+	}
 }
