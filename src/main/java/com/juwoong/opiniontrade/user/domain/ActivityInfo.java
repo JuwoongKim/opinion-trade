@@ -4,8 +4,10 @@ import org.hibernate.annotations.ColumnDefault;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Embeddable
+@Getter
 public class ActivityInfo {
 	@Column(name = "request_count")
 	@ColumnDefault(value = "0")

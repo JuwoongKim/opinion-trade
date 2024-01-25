@@ -2,11 +2,13 @@ package com.juwoong.opiniontrade.user.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Embeddable
+@Getter
 public class ScrapSurvey {
 	@Column(name = "scrap_survey_id", nullable = false)
-	private String scrapSurveyId;
+	private Long scrapSurveyId;
 
 	@Column(name = "scrip_survey_title", nullable = false)
 	private String scrapSurveyTitle;
@@ -17,7 +19,7 @@ public class ScrapSurvey {
 	protected ScrapSurvey() {
 	}
 
-	public ScrapSurvey(String scrapSurveyId, String scrapSurveyTitle, String scripSurveyDescription) {
+	public ScrapSurvey(Long scrapSurveyId, String scrapSurveyTitle, String scripSurveyDescription) {
 		this.scrapSurveyId = scrapSurveyId;
 		this.scrapSurveyTitle = scrapSurveyTitle;
 		this.scripSurveyDescription = scripSurveyDescription;
