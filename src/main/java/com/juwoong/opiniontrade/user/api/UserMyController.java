@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.juwoong.opiniontrade.user.api.request.FriendRequest;
+import com.juwoong.opiniontrade.user.api.request.ScrapProductRequest;
 import com.juwoong.opiniontrade.user.api.request.ScrapSurveyRequest;
 import com.juwoong.opiniontrade.user.application.UserMyService;
 import com.juwoong.opiniontrade.user.application.response.FriendResponse;
+import com.juwoong.opiniontrade.user.application.response.ScrapProductResponse;
 import com.juwoong.opiniontrade.user.application.response.ScrapSurveyResponse;
 import com.juwoong.opiniontrade.user.domain.Friend;
+import com.juwoong.opiniontrade.user.domain.ScrapProduct;
 import com.juwoong.opiniontrade.user.domain.ScrapSurvey;
 
 @RestController
@@ -55,13 +58,13 @@ public class UserMyController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping("/{userId}/scrap-survey")
+	@GetMapping("/{userId}/scrap-surveys")
 	public ResponseEntity<List<ScrapSurveyResponse>> getScrapSurveys(@PathVariable Long userId) {
 		List<ScrapSurveyResponse> scrapSurveyResponses = userMyService.getScrapSurveys(userId);
 		return ResponseEntity.ok(scrapSurveyResponses);
 	}
 
-	@PostMapping("/{userId}/scrap-survey")
+	@PostMapping("/{userId}/scrap-surveys")
 	public ResponseEntity<ScrapSurveyResponse> addScrapSurvey(
 		@PathVariable Long userId,
 		@RequestBody ScrapSurveyRequest scrapSurveyRequest
@@ -72,12 +75,39 @@ public class UserMyController {
 		return ResponseEntity.ok(scrapSurveyResponse);
 	}
 
-	@DeleteMapping("/{userId}/scrap-survey/{scrapSurveyId}")
+	@DeleteMapping("/{userId}/scrap-surveys/{scrapSurveyId}")
 	public ResponseEntity<Void> removeScrapSurvey(
 		@PathVariable Long userId,
 		@PathVariable Long scrapSurveyId
 	) {
 		userMyService.removeScrapSurvey(userId, scrapSurveyId);
+
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/{userId}/scrap-products")
+	public ResponseEntity<List<ScrapProductResponse>> getScrapProducts(@PathVariable Long userId) {
+		List<ScrapProductResponse> scrapProductResponses = userMyService.getScrapProducts(userId);
+		return ResponseEntity.ok(scrapProductResponses);
+	}
+
+	@PostMapping("/{userId}/scrap-products")
+	public ResponseEntity<ScrapProductResponse> addScrapProduct(
+		@PathVariable Long userId,
+		@RequestBody ScrapProductRequest scrapProductRequest
+	) {
+		ScrapProduct scrapProduct = scrapProductRequest.scrapProduct();
+		ScrapProductResponse scrapProductResponse = userMyService.addScrapProduct(userId, scrapProduct);
+
+		return ResponseEntity.ok(scrapProductResponse);
+	}
+
+	@DeleteMapping("/{userId}/scrap-products/{scrapProductId}")
+	public ResponseEntity<Void> removeScrapProduct(
+		@PathVariable Long userId,
+		@PathVariable Long scrapProductId
+	) {
+		userMyService.removeScrapProduct(userId, scrapProductId);
 
 		return ResponseEntity.noContent().build();
 	}

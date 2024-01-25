@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.juwoong.opiniontrade.user.application.response.FriendResponse;
+import com.juwoong.opiniontrade.user.application.response.ScrapProductResponse;
 import com.juwoong.opiniontrade.user.application.response.ScrapSurveyResponse;
 import com.juwoong.opiniontrade.user.domain.Friend;
+import com.juwoong.opiniontrade.user.domain.ScrapProduct;
 import com.juwoong.opiniontrade.user.domain.ScrapSurvey;
 import com.juwoong.opiniontrade.user.domain.repository.UserRepository;
 
@@ -67,5 +69,29 @@ public class UserMyService {
 	public void removeScrapSurvey(Long userId, Long scrapSurveyId) {
 		// find(userId);
 		// user.removeScrapSurvey(scrapSurveyId);
+	}
+
+	public List<ScrapProductResponse> getScrapProducts(Long userId) {
+		List<ScrapProduct> scrapProducts = List.of(
+			new ScrapProduct(1L, "title1", 100L),
+			new ScrapProduct(2L, "title2", 100L),
+			new ScrapProduct(3L, "title3", 100L)
+		);
+
+		List<ScrapProductResponse> scrapProductResponses = scrapProducts.stream()
+			.map(scrapProduct -> new ScrapProductResponse(scrapProduct))
+			.toList();
+
+		return scrapProductResponses;
+	}
+
+	@Transactional
+	public ScrapProductResponse addScrapProduct(Long userId, ScrapProduct scrapProduct) {
+		//
+		return new ScrapProductResponse(scrapProduct);
+	}
+
+	@Transactional
+	public void removeScrapProduct(Long userId, Long scrapProductId) {
 	}
 }
