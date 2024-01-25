@@ -7,8 +7,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
+import lombok.Getter;
 
 @Embeddable
+@Getter
 public class ProfileInfo {
 	@Column(name = "nick_name")
 	private String nickName;
@@ -17,7 +19,7 @@ public class ProfileInfo {
 	private String introduction;
 
 	@Column(name = "age")
-	private String age;
+	private Long age;
 
 	@Column(name = "job")
 	private String job;

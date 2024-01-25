@@ -16,7 +16,7 @@ import com.juwoong.opiniontrade.user.domain.Email;
 import com.juwoong.opiniontrade.user.domain.Password;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/users/account")
 public class UserAccountController {
 	private final UserAccountService userService;
 
