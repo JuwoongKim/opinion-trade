@@ -2,6 +2,8 @@ package com.juwoong.opiniontrade.survey.domain;
 
 import java.util.List;
 
+import com.juwoong.opiniontrade.common.entity.TimeBaseEntity;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -13,7 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 
 @Entity
-public class SurveyResult {
+public class SurveyResult extends TimeBaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "survey_result_id")

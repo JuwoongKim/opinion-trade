@@ -1,5 +1,6 @@
 package com.juwoong.opiniontrade.survey.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,9 +47,6 @@ public class Survey extends TimeBaseEntity {
 	@Embedded
 	private Creator creator;
 
-	@Column(name = "view_count")
-	private Long viewCount;
-
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
 	@JoinColumn(name = "survey_id")
 	private Map<Integer, Question> questions = new HashMap<>();
@@ -56,6 +54,12 @@ public class Survey extends TimeBaseEntity {
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
 	@JoinColumn(name = "survey_id")
 	private List<SurveyResult> surveyResults = new ArrayList<>();
+
+	@Embedded
+	private RequestInfo requestInfo;
+
+	@Column(name = "view_count")
+	private Long viewCount;
 
 	protected Survey() {
 	}
@@ -107,5 +111,11 @@ public class Survey extends TimeBaseEntity {
 	}
 
 	public void updateSurveyResult(Respondent respondent, SurveyResult surveyResult) {
+	}
+
+	public void updateRequestInfo(RequestInfo requestInfo) {
+	}
+
+	public void checkEndSatisfiedCondition(Long answerCount, LocalDateTime currentTime) {
 	}
 }
