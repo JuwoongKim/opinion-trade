@@ -1,6 +1,8 @@
 package com.juwoong.opiniontrade.survey.domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.juwoong.opiniontrade.common.entity.TimeBaseEntity;
@@ -51,6 +53,10 @@ public class Survey extends TimeBaseEntity {
 	@JoinColumn(name = "survey_id")
 	private Map<Integer, Question> questions = new HashMap<>();
 
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+	@JoinColumn(name = "survey_id")
+	private List<SurveyResult> surveyResults = new ArrayList<>();
+
 	protected Survey() {
 	}
 
@@ -94,5 +100,12 @@ public class Survey extends TimeBaseEntity {
 	}
 
 	public void changeQuestionOrder(Integer oneQuestionOrder, Integer anotherQuestionOrder) {
+	}
+
+	public void receiveSurveyResult(SurveyResult surveyResult) {
+		surveyResults.add(surveyResult);
+	}
+
+	public void updateSurveyResult(Respondent respondent, SurveyResult surveyResult) {
 	}
 }
