@@ -1,7 +1,11 @@
 package com.juwoong.opiniontrade.survey.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.juwoong.opiniontrade.common.entity.TimeBaseEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -10,17 +14,19 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Survey extends TimeBaseEntity {
 	enum SurveyStatus {
-		CREATE, REQUEST, END;
+		CREATE, REQUEST, END
 	}
 
 	@Id
 	@Column(name = "survey_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long surveyId;
+	private Long id;
 
 	@Column(name = "survey_title")
 	private String title;
@@ -41,12 +47,22 @@ public class Survey extends TimeBaseEntity {
 	@Column(name = "view_count")
 	private Long viewCount;
 
-	protected Survey(){
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+	@JoinColumn(name = "survey_id")
+	private Map<Integer, Question> questions = new HashMap<>();
+
+	protected Survey() {
 	}
 
-	public Survey(String title, String description) {
+	public Survey(Creator creator, String title, String description) {
+		this.creator = creator;
 		this.title = title;
 		this.description = description;
+		this.surveyStatus = SurveyStatus.CREATE;
+	}
+
+	public Long getSurveyId() {
+		return id;
 	}
 
 	public void updateTitle() {
@@ -68,5 +84,15 @@ public class Survey extends TimeBaseEntity {
 	}
 
 	public void subtractViewCount() {
+	}
+
+	public void createQuestion(Integer questionOrder, Question question) {
+		questions.put(questionOrder, question);
+	}
+
+	public void removeQuestion(Integer removeQuestionOrder) {
+	}
+
+	public void changeQuestionOrder(Integer oneQuestionOrder, Integer anotherQuestionOrder) {
 	}
 }

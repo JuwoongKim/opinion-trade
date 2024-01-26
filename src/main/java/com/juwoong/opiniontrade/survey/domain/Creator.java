@@ -10,4 +10,12 @@ public class Creator {
 
 	@Column(name = "creator_nickname")
 	String nickName;
+
+	protected Creator() {
+	}
+
+	public Creator(Long creatorId, String nickName) {
+		this.creatorId = creatorId;
+		this.nickName = nickName;
+	}
 }
