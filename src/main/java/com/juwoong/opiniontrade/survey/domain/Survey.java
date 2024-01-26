@@ -9,7 +9,9 @@ import java.util.Map;
 import com.juwoong.opiniontrade.common.entity.TimeBaseEntity;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -60,6 +62,10 @@ public class Survey extends TimeBaseEntity {
 
 	@Column(name = "view_count")
 	private Long viewCount;
+
+	@ElementCollection
+	@CollectionTable(name = "like_survey_users", joinColumns = @JoinColumn(name = "survey_id"))
+	private List<LikeSurveyUser> likeSurveyUsers = new ArrayList<>();
 
 	protected Survey() {
 	}
@@ -117,5 +123,18 @@ public class Survey extends TimeBaseEntity {
 	}
 
 	public void checkEndSatisfiedCondition(Long answerCount, LocalDateTime currentTime) {
+	}
+
+	public void addLikeSurveyUser(LikeSurveyUser likeSurveyUser) {
+	}
+
+	public void subtractLikeSurveyUser(LikeSurveyUser likeSurveyUser) {
+	}
+
+	public void getLikeCount() {
+	}
+
+	public List<LikeSurveyUser> getLikeSurveyUser() {
+		return List.of();
 	}
 }
