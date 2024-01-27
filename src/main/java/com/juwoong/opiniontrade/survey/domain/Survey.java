@@ -119,6 +119,10 @@ public class Survey extends TimeBaseEntity {
 	public void changeQuestionOrder(Integer oneQuestionOrder, Integer anotherQuestionOrder) {
 	}
 
+	public Map<Integer, Question> getQuestionWithOrder() {
+		return questions;
+	}
+
 	public void receiveSurveyResult(SurveyResult surveyResult) {
 		surveyResults.add(surveyResult);
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.juwoong.opiniontrade.survey.api.request.QuestionRequest;
 import com.juwoong.opiniontrade.survey.application.SurveyQuestionService;
 import com.juwoong.opiniontrade.survey.application.response.QuestionResponse;
+import com.juwoong.opiniontrade.survey.application.response.QuestionsResponse;
 import com.juwoong.opiniontrade.survey.domain.Option;
 
 @RestController
@@ -49,6 +51,15 @@ public class SurveyQuestionController {
 
 		return questionResponse;
 	}
+
+	@GetMapping("/{surveyId}/questions")
+	@ResponseStatus(HttpStatus.OK)
+	public QuestionsResponse getQuestions(@PathVariable Long surveyId){
+		QuestionsResponse questionsResponse = surveyQuestionService.getQuestions(surveyId);
+
+		return  questionsResponse;
+	}
+
 
 	@DeleteMapping("/{surveyId}/questions/{questionOrder}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

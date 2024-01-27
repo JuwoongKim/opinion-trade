@@ -1,11 +1,13 @@
 package com.juwoong.opiniontrade.survey.application;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.juwoong.opiniontrade.survey.application.response.QuestionResponse;
+import com.juwoong.opiniontrade.survey.application.response.QuestionsResponse;
 import com.juwoong.opiniontrade.survey.domain.Option;
 import com.juwoong.opiniontrade.survey.domain.Question;
 import com.juwoong.opiniontrade.survey.domain.Survey;
@@ -45,5 +47,12 @@ public class SurveyQuestionService {
 	public void changeOrder(Long surveyId, Integer oneOrder, Integer anotherOrder) {
 		// Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
 		// survey.changeQuestionOrder(oneOrder, anotherOrder);
+	}
+
+	public QuestionsResponse getQuestions(Long surveyId) {
+		Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
+		Map<Integer, Question> questions = survey.getQuestionWithOrder();
+
+		return new QuestionsResponse(questions);
 	}
 }
