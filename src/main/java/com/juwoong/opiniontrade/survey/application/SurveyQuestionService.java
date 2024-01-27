@@ -40,4 +40,10 @@ public class SurveyQuestionService {
 		// Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
 		// survey.removeQuestion(questionOrder);
 	}
+
+	@Transactional
+	public void changeOrder(Long surveyId, Integer oneOrder, Integer anotherOrder) {
+		// Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
+		// survey.changeQuestionOrder(oneOrder, anotherOrder);
+	}
 }
