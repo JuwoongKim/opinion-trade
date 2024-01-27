@@ -3,6 +3,7 @@ package com.juwoong.opiniontrade.survey.api;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,5 +46,14 @@ public class SurveyQuestionController {
 		);
 
 		return questionResponse;
+	}
+
+	@DeleteMapping("/{surveyId}/questions/{questionOrder}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteSurveyQuestion(
+		@PathVariable Long surveyId,
+		@PathVariable Integer questionOrder
+	) {
+		surveyQuestionService.removeSurvey(surveyId, questionOrder);
 	}
 }
