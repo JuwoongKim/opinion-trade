@@ -21,6 +21,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
 
 @Entity
 public class Survey extends TimeBaseEntity {
@@ -33,19 +34,23 @@ public class Survey extends TimeBaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Getter
 	@Column(name = "survey_title")
 	private String title;
 
+	@Getter
 	@Column(name = "survey_description")
 	private String description;
 
 	@Column(name = "category_id")
 	private Long categoryId;
 
+	@Getter
 	@Column(name = "survey_status")
 	@Enumerated(value = EnumType.STRING)
 	private SurveyStatus surveyStatus;
 
+	@Getter
 	@Embedded
 	private Creator creator;
 
@@ -60,6 +65,7 @@ public class Survey extends TimeBaseEntity {
 	@Embedded
 	private RequestInfo requestInfo;
 
+	@Getter
 	@Column(name = "view_count")
 	private Long viewCount;
 
@@ -75,6 +81,7 @@ public class Survey extends TimeBaseEntity {
 		this.title = title;
 		this.description = description;
 		this.surveyStatus = SurveyStatus.CREATE;
+		this.viewCount = 0L;
 	}
 
 	public Long getSurveyId() {
