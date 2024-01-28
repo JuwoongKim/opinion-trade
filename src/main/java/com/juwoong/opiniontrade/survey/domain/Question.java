@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import lombok.Getter;
 
 @Entity
 public class Question {
@@ -18,12 +19,15 @@ public class Question {
 	@Column(name = "question_id")
 	private Long id;
 
+	@Getter
 	@Column(name = "question_title")
 	private String title;
 
+	@Getter
 	@Column(name = "question_description")
 	private String description;
 
+	@Getter
 	@ElementCollection
 	@CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
 	private List<Option> options;
