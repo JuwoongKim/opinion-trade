@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import lombok.Getter;
 
 @Entity
 public class SurveyResult extends TimeBaseEntity {
@@ -21,9 +22,11 @@ public class SurveyResult extends TimeBaseEntity {
 	@Column(name = "survey_result_id")
 	private Long id;
 
+	@Getter
 	@Embedded
 	private Respondent respondent;
 
+	@Getter
 	@ElementCollection
 	@CollectionTable(name = "survey_result_answers", joinColumns = @JoinColumn(name = "survey_result_id"))
 	private List<Answer> answers;
