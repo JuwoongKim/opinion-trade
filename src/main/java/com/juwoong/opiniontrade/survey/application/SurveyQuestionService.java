@@ -51,7 +51,7 @@ public class SurveyQuestionService {
 
 	public QuestionsResponse getQuestions(Long surveyId) {
 		Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
-		Map<Integer, Question> questions = survey.getQuestionWithOrder();
+		Map<Integer, Question> questions = survey.findQuestionWithOrder();
 
 		return new QuestionsResponse(questions);
 	}

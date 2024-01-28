@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.juwoong.opiniontrade.survey.application.response.SurveyResultResponse;
+import com.juwoong.opiniontrade.survey.application.response.SurveyResultsResponse;
 import com.juwoong.opiniontrade.survey.domain.Answer;
 import com.juwoong.opiniontrade.survey.domain.Respondent;
 import com.juwoong.opiniontrade.survey.domain.Survey;
@@ -21,12 +22,20 @@ public class SurveyResultService {
 		this.surveyRepository = surveyRepository;
 	}
 
+	@Transactional
 	public SurveyResultResponse receiveSurveyResult(Long surveyId, Respondent respondent, List<Answer> answers) {
 		SurveyResult surveyResult = new SurveyResult(respondent, answers);
 
-		// Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
-		// survey.receiveSurveyResult(surveyResult);
+		Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
+		survey.receiveSurveyResult(surveyResult);
 
 		return new SurveyResultResponse(surveyResult);
+	}
+
+	public SurveyResultsResponse getSurveyResults(Long surveyId) {
+		Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
+		List<SurveyResult> surveyResults = survey.findSurveyResult();
+
+		return new SurveyResultsResponse(surveyResults);
 	}
 }

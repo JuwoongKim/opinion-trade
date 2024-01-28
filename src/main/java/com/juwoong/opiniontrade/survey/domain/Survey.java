@@ -119,7 +119,7 @@ public class Survey extends TimeBaseEntity {
 	public void changeQuestionOrder(Integer oneQuestionOrder, Integer anotherQuestionOrder) {
 	}
 
-	public Map<Integer, Question> getQuestionWithOrder() {
+	public Map<Integer, Question> findQuestionWithOrder() {
 		return questions;
 	}
 
@@ -128,6 +128,10 @@ public class Survey extends TimeBaseEntity {
 	}
 
 	public void updateSurveyResult(Respondent respondent, SurveyResult surveyResult) {
+	}
+
+	public List<SurveyResult> findSurveyResult() {
+		return surveyResults;
 	}
 
 	public void updateRequestInfo(RequestInfo requestInfo) {

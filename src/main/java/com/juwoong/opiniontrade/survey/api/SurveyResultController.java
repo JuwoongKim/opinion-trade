@@ -1,8 +1,10 @@
 package com.juwoong.opiniontrade.survey.api;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.juwoong.opiniontrade.survey.api.request.SurveyResultRequest;
 import com.juwoong.opiniontrade.survey.application.SurveyResultService;
 import com.juwoong.opiniontrade.survey.application.response.SurveyResultResponse;
+import com.juwoong.opiniontrade.survey.application.response.SurveyResultsResponse;
 import com.juwoong.opiniontrade.survey.domain.Answer;
+import com.juwoong.opiniontrade.survey.domain.Question;
 import com.juwoong.opiniontrade.survey.domain.Respondent;
 import com.juwoong.opiniontrade.survey.domain.SurveyResult;
 
@@ -43,4 +47,13 @@ public class SurveyResultController {
 		return surveyResultResponse;
 	}
 
+	@GetMapping("/{surveyId}/survey-results")
+	@ResponseStatus(HttpStatus.OK)
+	public SurveyResultsResponse getQuestionResults(
+		@PathVariable Long surveyId
+	) {
+		SurveyResultsResponse surveyResultsResponse = surveyResultService.getSurveyResults(surveyId);
+
+		return surveyResultsResponse;
+	}
 }
