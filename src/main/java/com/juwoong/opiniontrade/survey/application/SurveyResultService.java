@@ -38,4 +38,15 @@ public class SurveyResultService {
 
 		return new SurveyResultsResponse(surveyResults);
 	}
+
+	public SurveyResultResponse getSurveyResult(Long surveyId, Long respondentId) {
+		// 쿼리 조회
+
+		Respondent tempRespondent = new Respondent(1L, "name");
+		List<Answer> tempAnswers =List.of(new Answer(1L, "contnet"));
+
+		SurveyResult surveyResult = new SurveyResult(tempRespondent, tempAnswers);
+
+		return new SurveyResultResponse(surveyResult);
+	}
 }

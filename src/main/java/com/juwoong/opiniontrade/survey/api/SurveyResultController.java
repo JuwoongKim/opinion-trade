@@ -49,11 +49,22 @@ public class SurveyResultController {
 
 	@GetMapping("/{surveyId}/survey-results")
 	@ResponseStatus(HttpStatus.OK)
-	public SurveyResultsResponse getQuestionResults(
+	public SurveyResultsResponse getSurveyResults(
 		@PathVariable Long surveyId
 	) {
 		SurveyResultsResponse surveyResultsResponse = surveyResultService.getSurveyResults(surveyId);
 
 		return surveyResultsResponse;
+	}
+
+	@GetMapping("/{surveyId}/survey-results/{respondentId}")
+	@ResponseStatus(HttpStatus.OK)
+	public SurveyResultResponse getSurveyResult(
+		@PathVariable Long surveyId,
+		@PathVariable Long respondentId
+	) {
+		SurveyResultResponse surveyResultResponse = surveyResultService.getSurveyResult(surveyId, respondentId);
+
+		return surveyResultResponse;
 	}
 }
