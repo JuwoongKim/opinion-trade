@@ -49,4 +49,8 @@ public class SurveyResultService {
 
 		return new SurveyResultResponse(surveyResult);
 	}
+
+	@Transactional
+	public void removeSurveyResult(Long surveyId, Long respondentId) {
+	}
 }
