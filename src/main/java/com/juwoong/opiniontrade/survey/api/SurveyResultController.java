@@ -1,7 +1,6 @@
 package com.juwoong.opiniontrade.survey.api;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,9 +16,7 @@ import com.juwoong.opiniontrade.survey.application.SurveyResultService;
 import com.juwoong.opiniontrade.survey.application.response.SurveyResultResponse;
 import com.juwoong.opiniontrade.survey.application.response.SurveyResultsResponse;
 import com.juwoong.opiniontrade.survey.domain.Answer;
-import com.juwoong.opiniontrade.survey.domain.Question;
 import com.juwoong.opiniontrade.survey.domain.Respondent;
-import com.juwoong.opiniontrade.survey.domain.SurveyResult;
 
 @RestController(value = "/surveys")
 public class SurveyResultController {
@@ -71,7 +68,7 @@ public class SurveyResultController {
 
 	@DeleteMapping("/{surveyId}/survey-results/{respondentId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteSurveyQuestion(
+	public void deleteSurveyResult(
 		@PathVariable Long surveyId,
 		@PathVariable Long respondentId
 	) {
