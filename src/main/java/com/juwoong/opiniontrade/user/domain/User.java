@@ -3,7 +3,7 @@ package com.juwoong.opiniontrade.user.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.juwoong.opiniontrade.common.entity.TimeBaseEntity;
+import com.juwoong.opiniontrade.global.entity.TimeBaseEntity;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;

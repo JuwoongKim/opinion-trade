@@ -1,4 +1,4 @@
-package com.juwoong.opiniontrade.common.entity;
+package com.juwoong.opiniontrade.global.entity;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.*;
 

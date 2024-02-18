@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.juwoong.opiniontrade.common.entity.TimeBaseEntity;
+import com.juwoong.opiniontrade.global.entity.TimeBaseEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;

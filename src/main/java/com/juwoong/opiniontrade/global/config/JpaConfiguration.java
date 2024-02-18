@@ -1,4 +1,4 @@
-package com.juwoong.opiniontrade.config;
+package com.juwoong.opiniontrade.global.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
