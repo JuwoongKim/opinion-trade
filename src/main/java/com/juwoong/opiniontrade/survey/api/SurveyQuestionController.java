@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.juwoong.opiniontrade.survey.api.request.QuestionRequest;
 import com.juwoong.opiniontrade.survey.application.SurveyQuestionService;
-import com.juwoong.opiniontrade.survey.application.response.QuestionResponse;
 import com.juwoong.opiniontrade.survey.application.response.QuestionsResponse;
 import com.juwoong.opiniontrade.survey.domain.Option;
+import com.juwoong.opiniontrade.survey.domain.Question;
 
 @RestController
 @RequestMapping(value = "/surveys")
@@ -31,7 +31,7 @@ public class SurveyQuestionController {
 
 	@PostMapping("/{surveyId}/questions")
 	@ResponseStatus(HttpStatus.CREATED)
-	public QuestionResponse createSurveyQuestion(
+	public void createSurveyQuestion(
 		@PathVariable Long surveyId,
 		@RequestBody QuestionRequest questionRequest
 	) {
@@ -40,26 +40,25 @@ public class SurveyQuestionController {
 		String title = questionRequest.title();
 		String description = questionRequest.description();
 		List<Option> options = questionRequest.options();
+		Question.Type type = questionRequest.type();
 
-		QuestionResponse questionResponse = surveyQuestionService.createQuestion(
+		surveyQuestionService.createQuestion(
 			surveyId,
 			questionOrder,
 			title,
 			description,
+			type,
 			options
 		);
-
-		return questionResponse;
 	}
 
 	@GetMapping("/{surveyId}/questions")
 	@ResponseStatus(HttpStatus.OK)
-	public QuestionsResponse getQuestions(@PathVariable Long surveyId){
+	public QuestionsResponse getQuestions(@PathVariable Long surveyId) {
 		QuestionsResponse questionsResponse = surveyQuestionService.getQuestions(surveyId);
 
-		return  questionsResponse;
+		return questionsResponse;
 	}
-
 
 	@DeleteMapping("/{surveyId}/questions/{questionOrder}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
