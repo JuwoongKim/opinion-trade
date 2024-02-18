@@ -1,5 +1,6 @@
 package com.juwoong.opiniontrade.survey.domain.repository;
 
+import static com.juwoong.opiniontrade.survey.domain.Question.Type.*;
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 import java.util.List;
@@ -43,14 +44,18 @@ class SurveyRepositoryTest {
 	@Rollback(value = false)
 	void createSurveyQuestion() {
 		// given
+		// 설문지 생성
 		Creator creator = new Creator(1L, "juwoong");
 		Survey survey = new Survey(creator, "title", "description");
 
+		// 질문 생성
 		List<Option> options = List.of(
 			new Option("Question_Option1"),
 			new Option("Question_Option1")
 		);
-		Question question = new Question("title", "description", options);
+		Question.Type type = MULTIPLE_CHOICE;
+		Question question = type.create("title", "description", options);
+
 		Integer questionOrder = 1;
 
 		survey.createQuestion(questionOrder, question);
@@ -74,7 +79,9 @@ class SurveyRepositoryTest {
 			new Option("Question_Option1"),
 			new Option("Question_Option1")
 		);
-		Question question = new Question("title", "description", options);
+		Question.Type type = MULTIPLE_CHOICE;
+		Question question = type.create("title", "description", options);
+
 		Integer questionOrder = 1;
 
 		survey.createQuestion(questionOrder, question);

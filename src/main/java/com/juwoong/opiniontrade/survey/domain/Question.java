@@ -32,7 +32,7 @@ public abstract class Question {
 		CHECKBOX((title, descriptions, options) -> new QuestionCheckbox(title, descriptions, options)),
 		DROPDOWN((title, descriptions, options) -> new QuestionDropdown(title, descriptions, options));
 
-		public final TriFunction<String, String, List<Option>, Question> creator;
+		private final TriFunction<String, String, List<Option>, Question> creator;
 
 		Type(TriFunction<String, String, List<Option>, Question> creator) {
 			this.creator = creator;
