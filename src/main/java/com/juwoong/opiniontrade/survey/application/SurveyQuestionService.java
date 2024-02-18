@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.juwoong.opiniontrade.survey.application.response.QuestionResponse;
 import com.juwoong.opiniontrade.survey.application.response.QuestionsResponse;
 import com.juwoong.opiniontrade.survey.domain.Option;
 import com.juwoong.opiniontrade.survey.domain.Question;
@@ -23,18 +22,18 @@ public class SurveyQuestionService {
 	}
 
 	@Transactional
-	public QuestionResponse createQuestion(
+	public void createQuestion(
 		Long surveyId,
 		Integer questionOrder,
 		String title,
 		String description,
+		Question.Type type,
 		List<Option> options
 	) {
-		Question question = new Question(title, description, options);
-		// Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
-		// survey.createQuestion(questionOrder, question);
+		Question question = type.create(title, description, options);
+		Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
 
-		return new QuestionResponse(question);
+		survey.createQuestion(questionOrder, question);
 	}
 
 	@Transactional
