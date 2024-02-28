@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @DiscriminatorValue(value = "multiple_choice")
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QuestionMultipleChoice extends Question {
 	@Getter
@@ -22,9 +22,12 @@ public class QuestionMultipleChoice extends Question {
 	@CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
 	private List<Option> options;
 
-	public QuestionMultipleChoice(String title, String description, List<Option> options) {
-		super(title, description);
-		this.type = Type.MULTIPLE_CHOICE;
+	private QuestionMultipleChoice(Question.Type type, QuestionInfo questionInfo, List<Option> options) {
+		super(type, questionInfo);
 		this.options = options;
+	}
+
+	public static QuestionMultipleChoice init(Question.Type type, QuestionInfo questionInfo, List<Option> options) {
+		return new QuestionMultipleChoice(type, questionInfo, options);
 	}
 }

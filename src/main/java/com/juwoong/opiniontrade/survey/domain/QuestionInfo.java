@@ -4,18 +4,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Embeddable
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Option {
-	@Column(name = "question_option")
+public class QuestionInfo {
+	@Column(name = "question_title")
+	private String title;
+
+	@Column(name = "question_description")
 	private String description;
 
-	public static Option init(String description) {
-		return new Option(description);
+	public static QuestionInfo init(String title, String description) {
+		return new QuestionInfo(title, description);
 	}
 }
