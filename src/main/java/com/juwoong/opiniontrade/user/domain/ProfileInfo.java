@@ -1,16 +1,15 @@
 package com.juwoong.opiniontrade.user.domain;
 
-import java.util.List;
-
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Embeddable
-@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProfileInfo {
 	@Column(name = "nick_name")
 	private String nickName;
@@ -21,13 +20,7 @@ public class ProfileInfo {
 	@Column(name = "age")
 	private Long age;
 
-	@Column(name = "job")
-	private String job;
-
-	@Column(name = "residence")
-	private String residence;
-
-	@ElementCollection
-	@CollectionTable(name = "user_certifications", joinColumns = @JoinColumn(name = "user_id"))
-	private List<Certificate> certifications;
+	public static ProfileInfo init(String nickName, String introduction, Long age) {
+		return new ProfileInfo(nickName, introduction, age);
+	}
 }

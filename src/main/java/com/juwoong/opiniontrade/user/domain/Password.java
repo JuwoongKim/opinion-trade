@@ -2,22 +2,19 @@ package com.juwoong.opiniontrade.user.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Embeddable
-@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Password {
 	@Column(name = "password", nullable = false)
 	private String password;
 
-	protected Password() {
-	}
-
-	public Password(String password) {
-		validatePassword();
-		this.password = password;
-	}
-
-	private void validatePassword() {
+	public static Password init(String password) {
+		return new Password(password);
 	}
 }
