@@ -49,14 +49,14 @@ public class Survey extends TimeBaseEntity {
 
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
 	@JoinColumn(name = "survey_id")
-	private Map<Integer, Question> questions = new HashMap<>();
+	private final Map<Integer, Question> questions = new HashMap<>();
 
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
 	@JoinColumn(name = "survey_id")
-	private List<SurveyResult> surveyResults = new ArrayList<>();
+	private final List<SurveyResult> surveyResults = new ArrayList<>();
 
 	private Survey(Creator creator, SurveyInfo surveyInfo, SurveyStatus surveyStatus) {
-		this(null, creator, surveyInfo, surveyStatus, null, null);
+		this(null, creator, surveyInfo, surveyStatus);
 	}
 
 	public static Survey init(Creator creator, SurveyInfo surveyInfo) {
