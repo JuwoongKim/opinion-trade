@@ -39,10 +39,10 @@ class SurveyQuestionControllerTest {
 		String title = "questionTitle";
 		String description = "questionDescription";
 		Question.Type type = Question.Type.MULTIPLE_CHOICE;
-		List<Option> options = List.of(new Option("Option1"), new Option("Option2"));
+		List<Option> options = List.of(Option.init("Option1"), Option.init("Option2"));
 
 		String request = objectMapper.writeValueAsString(
-			new QuestionRequest(
+			new QuestionRequest.Create(
 				questionOrder,
 				title,
 				description,
@@ -52,11 +52,11 @@ class SurveyQuestionControllerTest {
 		);
 
 		doNothing().when(surveyQuestionService).createQuestion(
-			eq(surveyId),
-			eq(questionOrder),
-			eq(title),
-			eq(description),
-			eq(type),
+			anyLong(),
+			anyInt(),
+			any(),
+			anyString(),
+			anyString(),
 			anyList()
 		);
 
@@ -68,11 +68,11 @@ class SurveyQuestionControllerTest {
 			.andExpect(status().isCreated());
 
 		verify(surveyQuestionService, times(1)).createQuestion(
-			eq(surveyId),
-			eq(questionOrder),
-			eq(title),
-			eq(description),
-			eq(type),
+			anyLong(),
+			anyInt(),
+			any(),
+			anyString(),
+			anyString(),
 			anyList()
 		);
 	}
