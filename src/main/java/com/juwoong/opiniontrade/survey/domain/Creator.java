@@ -2,22 +2,20 @@ package com.juwoong.opiniontrade.survey.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Embeddable
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Creator {
 	@Column(name = "creator_id", nullable = false)
-	Long creatorId;
+	private Long creatorId;
 
-	@Column(name = "creator_nickname")
-	String nickname;
-
-	protected Creator() {
-	}
-
-	public Creator(Long creatorId, String nickname) {
-		this.creatorId = creatorId;
-		this.nickname = nickname;
+	public static Creator init(Long creatorId) {
+		return new Creator(creatorId);
 	}
 }

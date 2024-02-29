@@ -3,9 +3,7 @@ package com.juwoong.opiniontrade.user.application;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.juwoong.opiniontrade.user.application.response.ActivityInfoResponse;
 import com.juwoong.opiniontrade.user.application.response.ProfileInfoResponse;
-import com.juwoong.opiniontrade.user.domain.ActivityInfo;
 import com.juwoong.opiniontrade.user.domain.ProfileInfo;
 import com.juwoong.opiniontrade.user.domain.repository.UserRepository;
 
@@ -26,27 +24,12 @@ public class UserInfoService {
 		return new ProfileInfoResponse(profileInfo);
 	}
 
-	public ProfileInfoResponse getProfileInfo(Long userId) {
-		// find(userId);
-		// ProfileInfo profileInfo = user.getProfileInfo();
+	// public ProfileInfoResponse getProfileInfo(Long userId) {
+	// 	// find(userId);
+	// 	// ProfileInfo profileInfo = user.getProfileInfo();
+	//
+	// 	ProfileInfo profileInfo = new ProfileInfo();
+	// 	return new ProfileInfoResponse(profileInfo);
+	// }
 
-		ProfileInfo profileInfo = new ProfileInfo();
-		return new ProfileInfoResponse(profileInfo);
-	}
-
-	@Transactional
-	public ActivityInfoResponse updateActivityInfo(Long userId, ActivityInfo activityInfo) {
-		// find(userId);
-		// user.updateProfileInfo(profileInfo);
-
-		return new ActivityInfoResponse(activityInfo);
-	}
-
-	public ActivityInfoResponse getActivityInfo(Long userId) {
-		// find(userId);
-		// ProfileInfo profileInfo = user.getProfileInfo();
-
-		ActivityInfo activityInfo = new ActivityInfo();
-		return new ActivityInfoResponse(activityInfo);
-	}
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.juwoong.opiniontrade.survey.api.request.SurveyRequest;
 import com.juwoong.opiniontrade.survey.application.SurveyService;
 import com.juwoong.opiniontrade.survey.application.response.SurveyResponse;
-import com.juwoong.opiniontrade.survey.domain.Creator;
 
 import jakarta.validation.Valid;
 
@@ -25,27 +24,11 @@ public class SurveyController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public SurveyResponse createSurvey(@Valid @RequestBody SurveyRequest surveyRequest) {
-		Creator creator = surveyRequest.creator();
-		String title = surveyRequest.title();
-		String description = surveyRequest.description();
+	public SurveyResponse.Create createSurvey(@Valid @RequestBody SurveyRequest.Create request) {
+		Long creatorId = request.creatorId();
+		String title = request.title();
+		String description = request.description();
 
-		SurveyResponse surveyResponse = surveyService.createSurvey(creator, title, description);
-
-		return surveyResponse;
+		return surveyService.createSurvey(creatorId, title, description);
 	}
-
-	// @PutMapping("/{surveyId}/request")
-	// @ResponseStatus(HttpStatus.OK)
-	// public void requestSurvey(
-	// 	@PathVariable Long surveyId,
-	// 	@RequestBody RequestInfoRequest requestInfoRequest
-	// ) {
-	//
-	// 	RequestInfo requestInfo = requestInfoRequest.requestInfo();
-	// 	List<Respondent> respondents = requestInfoRequest.assignedRespondent();
-	// 	//surveyService.requestSurvey(surveyId, requestInfo, respondents);
-	//
-	// }
-
 }

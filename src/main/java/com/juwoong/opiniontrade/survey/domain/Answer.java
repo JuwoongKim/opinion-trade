@@ -2,8 +2,13 @@ package com.juwoong.opiniontrade.survey.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Embeddable
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Answer {
 	@Column(name = "question_id")
 	private Long questionId;
@@ -11,11 +16,7 @@ public class Answer {
 	@Column(name = "content")
 	private String content;
 
-	protected Answer() {
-	}
-
-	public Answer(Long questionId, String content) {
-		this.questionId = questionId;
-		this.content = content;
+	public static Answer init(Long questionId, String content) {
+		return new Answer(questionId, content);
 	}
 }

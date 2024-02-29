@@ -1,15 +1,12 @@
 package com.juwoong.opiniontrade.survey.application;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.juwoong.opiniontrade.survey.application.response.SurveyResponse;
 import com.juwoong.opiniontrade.survey.domain.Creator;
-import com.juwoong.opiniontrade.survey.domain.RequestInfo;
-import com.juwoong.opiniontrade.survey.domain.Respondent;
 import com.juwoong.opiniontrade.survey.domain.Survey;
+import com.juwoong.opiniontrade.survey.domain.SurveyInfo;
 import com.juwoong.opiniontrade.survey.domain.repository.SurveyRepository;
 
 @Service
@@ -22,10 +19,13 @@ public class SurveyService {
 	}
 
 	@Transactional
-	public SurveyResponse createSurvey(Creator creator, String title, String description) {
-		Survey survey = new Survey(creator, title, description);
+	public SurveyResponse.Create createSurvey(Long creatorId, String title, String description) {
+		Creator creator = Creator.init(creatorId);
+		SurveyInfo surveyInfo = SurveyInfo.init(title, description);
+		Survey survey = Survey.init(creator, surveyInfo);
+
 		Survey createdSurvey = surveyRepository.save(survey);
 
-		return new SurveyResponse(createdSurvey);
+		return new SurveyResponse.Create(createdSurvey.getId());
 	}
 }

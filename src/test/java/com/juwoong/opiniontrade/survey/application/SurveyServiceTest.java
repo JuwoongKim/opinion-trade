@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.juwoong.opiniontrade.survey.application.response.SurveyResponse;
 import com.juwoong.opiniontrade.survey.domain.Creator;
 import com.juwoong.opiniontrade.survey.domain.Survey;
+import com.juwoong.opiniontrade.survey.domain.SurveyInfo;
 import com.juwoong.opiniontrade.survey.domain.repository.SurveyRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,19 +28,19 @@ class SurveyServiceTest {
 	@DisplayName("유저가 설문지 생성에 성공한다.")
 	void createSurvey() {
 		// given
-		Creator creator = new Creator(1L, "juwoongKim");
+		Long creatorId = 1L;
 		String title = "surveyTitle";
 		String description = "surveyDescription";
-		Survey survey = new Survey(creator, title, description);
+		Creator creator = Creator.init(creatorId);
+		SurveyInfo surveyInfo = SurveyInfo.init(title, description);
 
-		when(surveyRepository.save(any(Survey.class))).thenReturn(survey);
+		Survey survey = Survey.init(creator, surveyInfo);
+		when(surveyRepository.save(any())).thenReturn(survey);
 
 		// when
-		SurveyResponse surveyResponse = surveyService.createSurvey(creator, title, description);
+		SurveyResponse surveyResponse = surveyService.createSurvey(creatorId, title, description);
 
 		// then
 		verify(surveyRepository, times(1)).save(any(Survey.class));
-		assertThat(surveyResponse.survey()).extracting("creator.nickname", "title", "description")
-			.containsExactly(creator.getNickname(), title, description);
 	}
 }
