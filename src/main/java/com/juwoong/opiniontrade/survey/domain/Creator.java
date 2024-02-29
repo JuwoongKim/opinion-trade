@@ -13,12 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Creator {
 	@Column(name = "creator_id", nullable = false)
-	private  Long creatorId;
+	private Long creatorId;
 
-	@Column(name = "creator_nickname")
-	private String nickname;
-
-	public static Creator init(Long creatorId, String nickname) {
-		return new Creator(creatorId, nickname);
+	public static Creator init(Long creatorId) {
+		return new Creator(creatorId);
 	}
 }
