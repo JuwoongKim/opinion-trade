@@ -34,6 +34,7 @@ class SurveyQuestionControllerTest {
 	private ObjectMapper objectMapper;
 
 	@Test
+	@DisplayName("설문지 질문 생성시  201 상태 값과 반환값 없음을 응답 한다")
 	void createQuestion() throws Exception {
 		// given
 		Long surveyId = 1L;
@@ -60,7 +61,7 @@ class SurveyQuestionControllerTest {
 		);
 
 		// when then
-		mockMvc.perform(post("/surveys/1/questions")
+		mockMvc.perform(post("/surveys/{surveyId}/questions", surveyId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(request)
 				.accept(MediaType.APPLICATION_JSON))
@@ -76,7 +77,7 @@ class SurveyQuestionControllerTest {
 	}
 
 	@Test
-	@DisplayName("질문 삭제 성공시 204 상태 코드와 반환값 없음을 응답한다.")
+	@DisplayName("질문 삭제 성공시 204 상태 코드와 반환값 없음을 응답 한다")
 	void deleteQuestion_Success_With_NoExceptions() throws Exception {
 		Long surveyId = 1L;
 		Integer questionOrder = 1;
@@ -90,8 +91,8 @@ class SurveyQuestionControllerTest {
 	}
 
 	@Test
-	@DisplayName("질문 순서 요청 값이 1 미만일 때 400 상태 코드와 오류 반환 값을 응답 한다.")
-	void deleteQuestion_Fail_When_QuestionNumber_Request_Is_Smaller_Than_One()throws Exception{
+	@DisplayName("질문 순서 요청 값이 1 미만일 때 400 상태 코드와 오류 반환 값을 응답 한다")
+	void deleteQuestion_Fail_When_QuestionNumber_Request_Is_Smaller_Than_One() throws Exception {
 		Long surveyId = 1L;
 		Integer questionOrder = 0;
 		QuestionRequest.Delete request = new QuestionRequest.Delete(questionOrder);
@@ -101,5 +102,52 @@ class SurveyQuestionControllerTest {
 			.content(objectMapper.writeValueAsString(request)));
 
 		result.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	@DisplayName("설문지 질문 수정시  204 상태값과 반환값 없음을 응답 한다")
+	void updateQuestion() throws Exception {
+		// given
+		Long surveyId = 1L;
+		Integer questionOrder = 1;
+		String title = "questionTitle";
+		String description = "questionDescription";
+		Question.Type type = Question.Type.MULTIPLE_CHOICE;
+		List<Option> options = List.of(Option.init("Option1"), Option.init("Option2"));
+
+		String request = objectMapper.writeValueAsString(
+			new QuestionRequest.Update(
+				questionOrder,
+				title,
+				description,
+				type,
+				options
+			)
+		);
+
+		doNothing().when(surveyQuestionService).updateQuestion(
+			anyLong(),
+			anyInt(),
+			any(),
+			anyString(),
+			anyString(),
+			anyList()
+		);
+
+		// when then
+		mockMvc.perform(put("/surveys/{surveyId}/questions", surveyId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(request)
+				.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isNoContent());
+
+		verify(surveyQuestionService, times(1)).updateQuestion(
+			anyLong(),
+			anyInt(),
+			any(),
+			anyString(),
+			anyString(),
+			anyList()
+		);
 	}
 }

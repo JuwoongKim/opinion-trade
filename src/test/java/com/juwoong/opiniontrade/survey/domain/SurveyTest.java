@@ -26,7 +26,7 @@ class SurveyTest {
 		questions.forEach(question -> survey.createQuestion(question));
 
 		// when
-		survey.deleteQuestion(2);
+		survey.removeQuestion(2);
 
 		// then
 		assertThat(survey.getQuestions().get(2).getType().name()).isEqualTo(MULTIPLE_CHOICE.name());

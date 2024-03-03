@@ -18,6 +18,15 @@ public sealed interface QuestionRequest {
 	) implements QuestionRequest {
 	}
 
+	record Update(
+		@Min(value = 1) Integer questionOrder,
+		@Size(min = 0, max = 50) String title,
+		@Size(min = 0, max = 200) String description,
+		@NotNull Question.Type type,
+		@NotNull List<Option> options
+	) implements QuestionRequest {
+	}
+
 	record Delete(
 		@Min(value = 1) Integer questionOrder
 	) implements QuestionRequest {
