@@ -1,8 +1,11 @@
 package com.juwoong.opiniontrade.survey.application;
 
+import static com.juwoong.opiniontrade.global.exception.ErrorCode.*;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.juwoong.opiniontrade.global.exception.OpinionTradeException;
 import com.juwoong.opiniontrade.survey.application.response.SurveyResponse;
 import com.juwoong.opiniontrade.survey.domain.Creator;
 import com.juwoong.opiniontrade.survey.domain.Survey;
@@ -27,5 +30,14 @@ public class SurveyService {
 		Survey createdSurvey = surveyRepository.save(survey);
 
 		return new SurveyResponse.Create(createdSurvey.getId());
+	}
+
+	@Transactional
+	public void updateSurvey(Long surveyId, String title, String description) {
+		Survey survey = surveyRepository.findById(surveyId)
+			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
+
+		SurveyInfo surveyInfo = SurveyInfo.init(title, description);
+		survey.update(surveyInfo);
 	}
 }

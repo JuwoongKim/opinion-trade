@@ -8,7 +8,12 @@ public sealed interface SurveyRequest {
 		@NotNull Long creatorId,
 		@Size(min = 0, max = 50) String title,
 		@Size(min = 0, max = 200) String description
-	)
-		implements SurveyRequest {
+	) implements SurveyRequest {
+	}
+
+	record Update(
+		@Size(min = 0, max = 50) String title,
+		@Size(min = 0, max = 200) String description
+	) implements SurveyRequest {
 	}
 }
