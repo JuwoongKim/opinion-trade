@@ -45,7 +45,7 @@ public class SurveyQuestionController {
 		@Valid @RequestBody QuestionRequest.Delete request
 	) {
 		Integer questionOrder = request.questionOrder();
-		surveyQuestionService.removeSurvey(surveyId, questionOrder);
+		surveyQuestionService.removeQuestion(surveyId, questionOrder);
 	}
 
 	//
