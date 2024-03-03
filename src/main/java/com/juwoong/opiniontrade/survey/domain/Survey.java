@@ -63,6 +63,10 @@ public class Survey extends TimeBaseEntity {
 		return new Survey(creator, surveyInfo, SurveyStatus.CREATE);
 	}
 
+	public void update(SurveyInfo surveyInfo) {
+		this.surveyInfo = surveyInfo;
+	}
+
 	public void createQuestion(Integer order, Question question) {
 		questions.put(order, question);
 	}

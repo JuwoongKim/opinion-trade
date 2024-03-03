@@ -1,7 +1,9 @@
 package com.juwoong.opiniontrade.survey.api;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,4 +33,17 @@ public class SurveyController {
 
 		return surveyService.createSurvey(creatorId, title, description);
 	}
+
+	@PutMapping(path = "/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void updateSurvey(
+		@PathVariable(name = "id") Long surveyId,
+		@Valid @RequestBody SurveyRequest.Update request
+	) {
+		String title = request.title();
+		String description = request.description();
+
+		surveyService.updateSurvey(surveyId, title, description);
+	}
+
 }
