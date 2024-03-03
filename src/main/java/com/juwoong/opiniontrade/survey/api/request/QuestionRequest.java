@@ -19,8 +19,7 @@ public sealed interface QuestionRequest {
 	}
 
 	record Delete(
-		@Min(value = 1, message = "QuestionOrder must be 1 or greater")
-		Integer questionOrder
+		@Min(value = 1) Integer questionOrder
 	) implements QuestionRequest {
 	}
 }

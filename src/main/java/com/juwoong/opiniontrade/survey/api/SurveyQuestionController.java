@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.juwoong.opiniontrade.survey.api.request.QuestionRequest;
 import com.juwoong.opiniontrade.survey.application.SurveyQuestionService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/surveys")
 public class SurveyQuestionController {
@@ -25,7 +27,7 @@ public class SurveyQuestionController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createSurveyQuestion(
 		@PathVariable Long surveyId,
-		@RequestBody QuestionRequest.Create request
+		@Valid @RequestBody QuestionRequest.Create request
 	) {
 		surveyQuestionService.createQuestion(
 			surveyId,
@@ -40,7 +42,7 @@ public class SurveyQuestionController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteSurveyQuestion(
 		@PathVariable Long surveyId,
-		@RequestBody QuestionRequest.Delete request
+		@Valid @RequestBody QuestionRequest.Delete request
 	) {
 		Integer questionOrder = request.questionOrder();
 		surveyQuestionService.removeSurvey(surveyId, questionOrder);
