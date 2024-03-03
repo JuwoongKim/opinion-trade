@@ -69,5 +69,4 @@ class SurveyQuestionServiceTest {
 
 		verify(surveyRepository, times(1)).findById(anyLong());
 	}
-
 }

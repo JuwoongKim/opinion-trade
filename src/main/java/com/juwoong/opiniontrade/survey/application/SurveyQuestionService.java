@@ -34,17 +34,36 @@ public class SurveyQuestionService {
 		QuestionInfo questionInfo = QuestionInfo.init(title, description);
 		Question question = Question.init(type, questionInfo, options);
 
-		Survey survey = surveyRepository.findById(surveyId)
-			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
+		Survey survey = findSurveyById(surveyId);
 
 		survey.createQuestion(question);
 	}
 
 	@Transactional
 	public void removeQuestion(Long surveyId, Integer questionOrder) {
-		Survey survey = surveyRepository.findById(surveyId)
-			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
+		Survey survey = findSurveyById(surveyId);
 		survey.removeQuestion(questionOrder);
+	}
+
+	@Transactional
+	public void updateQuestion(
+		Long surveyId,
+		Integer questionOrder,
+		Question.Type type,
+		String title,
+		String description,
+		List<Option> options
+	) {
+		Survey survey = findSurveyById(surveyId);
+		QuestionInfo questionInfo = QuestionInfo.init(title, description);
+		Question question = Question.init(type, questionInfo, options);
+
+		survey.updateQuestion(questionOrder, question);
+	}
+
+	private Survey findSurveyById(Long id) {
+		return surveyRepository.findById(id)
+			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
 	}
 
 	//
