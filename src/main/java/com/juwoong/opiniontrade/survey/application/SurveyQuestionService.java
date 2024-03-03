@@ -23,7 +23,6 @@ public class SurveyQuestionService {
 	@Transactional
 	public void createQuestion(
 		Long surveyId,
-		Integer questionOrder,
 		Question.Type type,
 		String title,
 		String description,
@@ -34,14 +33,15 @@ public class SurveyQuestionService {
 
 		Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
 
-		survey.createQuestion(questionOrder, question);
+		survey.createQuestion(question);
 	}
 
-	// @Transactional
-	// public void removeSurvey(Long surveyId, Integer questionOrder) {
-	// 	// Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
-	// 	// survey.removeQuestion(questionOrder);
-	// }
+	@Transactional
+	public void removeSurvey(Long surveyId, Integer questionOrder) {
+		Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
+		survey.removeQuestion(questionOrder);
+	}
+
 	//
 	// @Transactional
 	// public void changeOrder(Long surveyId, Integer oneOrder, Integer anotherOrder) {
