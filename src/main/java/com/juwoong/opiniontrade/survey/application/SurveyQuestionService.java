@@ -1,10 +1,13 @@
 package com.juwoong.opiniontrade.survey.application;
 
+import static com.juwoong.opiniontrade.global.exception.ErrorCode.*;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.juwoong.opiniontrade.global.exception.OpinionTradeException;
 import com.juwoong.opiniontrade.survey.domain.Option;
 import com.juwoong.opiniontrade.survey.domain.Question;
 import com.juwoong.opiniontrade.survey.domain.QuestionInfo;
@@ -23,7 +26,6 @@ public class SurveyQuestionService {
 	@Transactional
 	public void createQuestion(
 		Long surveyId,
-		Integer questionOrder,
 		Question.Type type,
 		String title,
 		String description,
@@ -32,16 +34,19 @@ public class SurveyQuestionService {
 		QuestionInfo questionInfo = QuestionInfo.init(title, description);
 		Question question = Question.init(type, questionInfo, options);
 
-		Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
+		Survey survey = surveyRepository.findById(surveyId)
+			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
 
-		survey.createQuestion(questionOrder, question);
+		survey.createQuestion(question);
 	}
 
-	// @Transactional
-	// public void removeSurvey(Long surveyId, Integer questionOrder) {
-	// 	// Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
-	// 	// survey.removeQuestion(questionOrder);
-	// }
+	@Transactional
+	public void removeQuestion(Long surveyId, Integer questionOrder) {
+		Survey survey = surveyRepository.findById(surveyId)
+			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
+		survey.removeQuestion(questionOrder);
+	}
+
 	//
 	// @Transactional
 	// public void changeOrder(Long surveyId, Integer oneOrder, Integer anotherOrder) {

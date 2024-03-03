@@ -1,9 +1,8 @@
 package com.juwoong.opiniontrade.survey.domain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.juwoong.opiniontrade.global.entity.TimeBaseEntity;
 
@@ -49,7 +48,7 @@ public class Survey extends TimeBaseEntity {
 
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
 	@JoinColumn(name = "survey_id")
-	private final Map<Integer, Question> questions = new HashMap<>();
+	private final List<Question> questions = new LinkedList<>();
 
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
 	@JoinColumn(name = "survey_id")
@@ -67,8 +66,8 @@ public class Survey extends TimeBaseEntity {
 		this.surveyInfo = surveyInfo;
 	}
 
-	public void createQuestion(Integer order, Question question) {
-		questions.put(order, question);
+	public void createQuestion(Question question) {
+		questions.add(question);
 	}
 
 	public void changeQuestionOrder(Integer oneOrder, Integer anotherOrder) {
@@ -78,6 +77,8 @@ public class Survey extends TimeBaseEntity {
 	}
 
 	public void deleteQuestion(Integer order) {
+		Integer index = order - 1;
+		questions.remove(index);
 	}
 
 	public void receiveSurveyResult(SurveyResult surveyResult) {

@@ -16,8 +16,10 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Table(name = "questions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

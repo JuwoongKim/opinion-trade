@@ -5,13 +5,21 @@ import java.util.List;
 import com.juwoong.opiniontrade.survey.domain.Option;
 import com.juwoong.opiniontrade.survey.domain.Question;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public sealed interface QuestionRequest {
 	record Create(
-		Integer questionOrder,
-		String title,
-		String description,
-		Question.Type type,
-		List<Option> options
+		@Size(min = 0, max = 50) String title,
+		@Size(min = 0, max = 200) String description,
+		@NotNull Question.Type type,
+		@NotNull List<Option> options
+	) implements QuestionRequest {
+	}
+
+	record Delete(
+		@Min(value = 1) Integer questionOrder
 	) implements QuestionRequest {
 	}
 }
