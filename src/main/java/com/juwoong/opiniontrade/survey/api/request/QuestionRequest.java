@@ -31,4 +31,10 @@ public sealed interface QuestionRequest {
 		@Min(value = 1) Integer questionOrder
 	) implements QuestionRequest {
 	}
+
+	record UpdateQuestionOrder(
+		@Min(value = 1) Integer oneQuestionOrder,
+		@Min(value = 1) Integer anotherQuestionOrder
+	) implements QuestionRequest {
+	}
 }

@@ -76,6 +76,11 @@ public class Survey extends TimeBaseEntity {
 	}
 
 	public void changeQuestionOrder(Integer oneOrder, Integer anotherOrder) {
+		Question oneQuestion = questions.get(oneOrder);
+		Question anotherQuestion = questions.get(anotherOrder);
+
+		questions.set(anotherOrder, oneQuestion);
+		questions.set(oneOrder, anotherQuestion);
 	}
 
 	public void removeQuestion(Integer order) {
