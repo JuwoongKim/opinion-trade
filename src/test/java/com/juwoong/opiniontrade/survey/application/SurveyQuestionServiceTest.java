@@ -97,4 +97,21 @@ class SurveyQuestionServiceTest {
 
 		verify(surveyRepository, times(1)).findById(anyLong());
 	}
+
+	@Test
+	@DisplayName("질문 순서 변경에 성공 한다.")
+	void changeQuestionOrder_Success() {
+		Survey survey = SurveyFixture.SURVEY.getInstance();
+		Question paragraph = QuestionFixture.PARAGRAPH.getInstance();
+		Question multiple = QuestionFixture.MULTIPLE_CHOICE.getInstance();
+
+		survey.createQuestion(paragraph);
+		survey.createQuestion(multiple);
+
+		when(surveyRepository.findById(anyLong())).thenReturn(Optional.of(survey));
+
+		surveyQuestionService.changeOrder(1L, 1, 2);
+
+		verify(surveyRepository, times(1)).findById(anyLong());
+	}
 }

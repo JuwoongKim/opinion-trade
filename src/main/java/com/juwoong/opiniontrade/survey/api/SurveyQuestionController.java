@@ -66,7 +66,7 @@ public class SurveyQuestionController {
 	}
 
 	@PutMapping("/{surveyId}/questions/change-order")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	public void changeQuestionOrder(
 		@PathVariable Long surveyId,
 		@Valid @RequestBody QuestionRequest.UpdateQuestionOrder request

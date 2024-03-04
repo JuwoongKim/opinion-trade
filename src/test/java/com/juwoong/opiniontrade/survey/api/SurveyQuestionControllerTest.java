@@ -99,13 +99,14 @@ class SurveyQuestionControllerTest {
 
 		ResultActions result = mockMvc.perform(delete("/surveys/{surveyId}/questions", surveyId)
 			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(request)));
 
 		result.andExpect(status().isBadRequest());
 	}
 
 	@Test
-	@DisplayName("설문지 질문 수정시  204 상태값과 반환값 없음을 응답 한다")
+	@DisplayName("설문지 질문 수정시 204 상태값과 반환값 없음을 응답 한다")
 	void updateQuestion() throws Exception {
 		// given
 		Long surveyId = 1L;
@@ -135,11 +136,12 @@ class SurveyQuestionControllerTest {
 		);
 
 		// when then
-		mockMvc.perform(put("/surveys/{surveyId}/questions", surveyId)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(request)
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isNoContent());
+		ResultActions result = mockMvc.perform(put("/surveys/{surveyId}/questions", surveyId)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.content(request));
+
+		result.andExpect(status().isNoContent());
 
 		verify(surveyQuestionService, times(1)).updateQuestion(
 			anyLong(),
@@ -149,5 +151,22 @@ class SurveyQuestionControllerTest {
 			anyString(),
 			anyList()
 		);
+	}
+
+	@Test
+	@DisplayName("질문 순서 변경 완료 시 200 상태코드와 반환값 없음을 응답 한다")
+	void changeQuestionOrder() throws Exception {
+		Long surveyId = 1L;
+		QuestionRequest.UpdateQuestionOrder request = new QuestionRequest.UpdateQuestionOrder(1, 2);
+		doNothing().when(surveyQuestionService).changeOrder(anyLong(), anyInt(), anyInt());
+
+		ResultActions result = mockMvc.perform(put("/surveys/{surveyId}/questions/change-order", surveyId)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(request)));
+
+		result.andExpect(status().isOk());
+
+		verify(surveyQuestionService, times(1)).changeOrder(anyLong(), anyInt(), anyInt());
 	}
 }
