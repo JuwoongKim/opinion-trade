@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Table(name = "survey-results")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -40,7 +41,8 @@ public class SurveyResult extends TimeBaseEntity {
 		return new SurveyResult(null, respondent, answers);
 	}
 
-	public void createAnswer(Answer answer) {
-		answers.add(answer);
+	public void updateAnswers(List<Answer> answers) {
+		this.answers = answers;
 	}
+
 }

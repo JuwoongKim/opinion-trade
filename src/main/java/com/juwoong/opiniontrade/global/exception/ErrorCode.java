@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ErrorCode {
 	// 404
-	NOT_FOUND_SURVEY(NOT_FOUND, "설문지가 존재하지 않습니다.");
+	NOT_FOUND_SURVEY(NOT_FOUND, "설문지가 존재하지 않습니다."),
+	NOT_FOUND_SURVEY_RESULT(NOT_FOUND, "설문 결과가 존재하지 않습니다.");
 
 	private final HttpStatus httpStatus;
 	private final String message;
