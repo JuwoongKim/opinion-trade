@@ -15,8 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.juwoong.opiniontrade.survey.api.request.ResultRequest;
 import com.juwoong.opiniontrade.survey.domain.Survey;
+import com.juwoong.opiniontrade.survey.domain.SurveyResult;
 import com.juwoong.opiniontrade.survey.domain.repository.SurveyRepository;
 import com.juwoong.opiniontrade.survey.fixture.SurveyFixture;
+import com.juwoong.opiniontrade.survey.fixture.SurveyResultFixture;
 
 @ExtendWith(MockitoExtension.class)
 class SurveyResultServiceTest {
@@ -39,6 +41,25 @@ class SurveyResultServiceTest {
 		);
 
 		surveyResultService.createSurveyResult(surveyId, respondentId, answer);
+
+		verify(surveyRepository, times(1)).findById(anyLong());
+	}
+
+	@Test
+	@DisplayName("설문 결과 수정에 성공 한다.")
+	void updateSurveyResult_Success() {
+		Survey survey = SurveyFixture.SURVEY.getInstance();
+		SurveyResult surveyResult = SurveyResultFixture.SURVEY_RESULT.getInstance();
+		survey.receiveSurveyResult(surveyResult);
+		when(surveyRepository.findById(anyLong())).thenReturn(Optional.of(survey));
+
+		Long surveyId = 1L;
+		Long respondentId = 1L;
+		List<ResultRequest.Answer> answer = List.of(
+			new ResultRequest.Answer(1L, "updateContent")
+		);
+
+		surveyResultService.updateSurveyResult(surveyId, respondentId, answer);
 
 		verify(surveyRepository, times(1)).findById(anyLong());
 	}

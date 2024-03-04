@@ -31,7 +31,7 @@ class SurveyResultControllerTest {
 	private ObjectMapper objectMapper;
 
 	@Test
-	@DisplayName("설문결과 성공시 204 상태 코드와 반환값 없음을 응답 한다")
+	@DisplayName("설문결과 생성 성공시 201 상태 코드와 반환값 없음을 응답 한다")
 	void createSurveyResult_Success() throws Exception {
 		Long surveyId = 1L;
 		Long respondentId = 1L;
@@ -48,5 +48,25 @@ class SurveyResultControllerTest {
 		result.andExpect(status().isCreated());
 
 		verify(surveyResultService, times(1)).createSurveyResult(anyLong(), anyLong(), anyList());
+	}
+
+	@Test
+	@DisplayName("설문결과 생성 성공시 204 상태 코드와 반환값 없음을 응답 한다")
+	void updateSurveyResult_Success() throws Exception {
+		Long surveyId = 1L;
+		Long respondentId = 1L;
+		List<ResultRequest.Answer> answer = List.of(new ResultRequest.Answer(1L, "content"));
+		ResultRequest.Update request = new ResultRequest.Update(respondentId, answer);
+
+		doNothing().when(surveyResultService).updateSurveyResult(anyLong(), anyLong(), anyList());
+
+		ResultActions result = mockMvc.perform(
+			put("/surveys/{surveyId}/surveyResult", surveyId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(request)));
+
+		result.andExpect(status().isNoContent());
+
+		verify(surveyResultService, times(1)).updateSurveyResult(anyLong(), anyLong(), anyList());
 	}
 }
