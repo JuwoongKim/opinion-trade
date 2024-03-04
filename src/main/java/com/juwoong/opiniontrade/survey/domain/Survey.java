@@ -1,10 +1,13 @@
 package com.juwoong.opiniontrade.survey.domain;
 
+import static com.juwoong.opiniontrade.global.exception.ErrorCode.*;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.juwoong.opiniontrade.global.entity.TimeBaseEntity;
+import com.juwoong.opiniontrade.global.exception.OpinionTradeException;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -92,6 +95,16 @@ public class Survey extends TimeBaseEntity {
 
 	public void receiveSurveyResult(SurveyResult surveyResult) {
 		surveyResults.add(surveyResult);
+	}
+
+	public void updateSurveyResult(Long surveyResultId, List<Answer> answers) {
+		SurveyResult result = surveyResults.stream()
+			.filter(surveyResult -> surveyResult.getRespondent().getRespondentId().longValue()
+				== surveyResultId.longValue())
+			.findFirst()
+			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY_RESULT));
+
+		result.updateAnswers(answers);
 	}
 
 	public SurveyResult getSurveyResultByRespondent(Respondent respondent) {
