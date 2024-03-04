@@ -11,6 +11,12 @@ public sealed interface ResultRequest {
 	) implements ResultRequest {
 	}
 
+	record Update(
+		@NotNull Long respondentId,
+		List<Answer> answers
+	) implements ResultRequest {
+	}
+
 	record Answer(
 		@NotNull Long questionId,
 		@NotNull String content
