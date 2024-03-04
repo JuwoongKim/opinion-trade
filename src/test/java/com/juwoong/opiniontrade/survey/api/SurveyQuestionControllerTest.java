@@ -63,8 +63,7 @@ class SurveyQuestionControllerTest {
 		// when then
 		mockMvc.perform(post("/surveys/{surveyId}/questions", surveyId)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(request)
-				.accept(MediaType.APPLICATION_JSON))
+				.content(request))
 			.andExpect(status().isCreated());
 
 		verify(surveyQuestionService, times(1)).createQuestion(
@@ -99,7 +98,6 @@ class SurveyQuestionControllerTest {
 
 		ResultActions result = mockMvc.perform(delete("/surveys/{surveyId}/questions", surveyId)
 			.contentType(MediaType.APPLICATION_JSON)
-			.accept(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(request)));
 
 		result.andExpect(status().isBadRequest());
@@ -138,7 +136,6 @@ class SurveyQuestionControllerTest {
 		// when then
 		ResultActions result = mockMvc.perform(put("/surveys/{surveyId}/questions", surveyId)
 			.contentType(MediaType.APPLICATION_JSON)
-			.accept(MediaType.APPLICATION_JSON)
 			.content(request));
 
 		result.andExpect(status().isNoContent());
@@ -162,7 +159,6 @@ class SurveyQuestionControllerTest {
 
 		ResultActions result = mockMvc.perform(put("/surveys/{surveyId}/questions/change-order", surveyId)
 			.contentType(MediaType.APPLICATION_JSON)
-			.accept(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(request)));
 
 		result.andExpect(status().isOk());
