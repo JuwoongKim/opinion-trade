@@ -61,17 +61,20 @@ public class SurveyQuestionService {
 		survey.updateQuestion(questionOrder, question);
 	}
 
+	@Transactional
+	public void changeOrder(Long surveyId, Integer oneOrder, Integer anotherOrder) {
+		Survey survey = findSurveyById(surveyId);
+		survey.changeQuestionOrder(oneOrder, anotherOrder);
+	}
+
 	private Survey findSurveyById(Long id) {
 		return surveyRepository.findById(id)
 			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
 	}
 
-	//
-	// @Transactional
-	// public void changeOrder(Long surveyId, Integer oneOrder, Integer anotherOrder) {
-	// 	// Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
-	// 	// survey.changeQuestionOrder(oneOrder, anotherOrder);
-	// }
+
+
+
 	//
 	// public QuestionsResponse getQuestions(Long surveyId) {
 	// 	Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());

@@ -65,24 +65,14 @@ public class SurveyQuestionController {
 		);
 	}
 
-
-	//
-	// @GetMapping("/{surveyId}/questions")
-	// @ResponseStatus(HttpStatus.OK)
-	// public QuestionsResponse getQuestions(@PathVariable Long surveyId) {
-	// 	QuestionsResponse questionsResponse = surveyQuestionService.getQuestions(surveyId);
-	//
-	// 	return questionsResponse;
-	// }
-	//
-	//
-	// @PutMapping("/{surveyId}/questions/change-order")
-	// @ResponseStatus(HttpStatus.NO_CONTENT)
-	// public void changeQuestionOrder(
-	// 	@PathVariable Long surveyId,
-	// 	@RequestParam Integer oneOrder,
-	// 	@RequestParam Integer anotherOrder
-	// ) {
-	// 	surveyQuestionService.changeOrder(surveyId, oneOrder, anotherOrder);
-	// }
+	@PutMapping("/{surveyId}/questions/change-order")
+	@ResponseStatus(HttpStatus.OK)
+	public void changeQuestionOrder(
+		@PathVariable Long surveyId,
+		@Valid @RequestBody QuestionRequest.UpdateQuestionOrder request
+	) {
+		Integer oneOrder = request.oneQuestionOrder();
+		Integer anotherOrder = request.anotherQuestionOrder();
+		surveyQuestionService.changeOrder(surveyId, oneOrder, anotherOrder);
+	}
 }
