@@ -13,10 +13,7 @@ public class Respondent {
 	@Column(name = "respondentId")
 	private Long respondentId;
 
-	@Column(name = "respondent_name")
-	private String name;
-
-	public static Respondent init(Long respondentId, String name) {
-		return new Respondent(respondentId, name);
+	public static Respondent init(Long respondentId) {
+		return new Respondent(respondentId);
 	}
 }

@@ -71,15 +71,4 @@ public class SurveyQuestionService {
 		return surveyRepository.findById(id)
 			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
 	}
-
-
-
-
-	//
-	// public QuestionsResponse getQuestions(Long surveyId) {
-	// 	Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new RuntimeException());
-	// 	Map<Integer, Question> questions = survey.findQuestionWithOrder();
-	//
-	// 	return new QuestionsResponse(questions);
-	// }
 }
