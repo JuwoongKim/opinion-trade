@@ -2,6 +2,12 @@ package com.juwoong.opiniontrade.survey.application;
 
 import static com.juwoong.opiniontrade.global.exception.ErrorCode.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,5 +52,13 @@ public class SurveyService {
 			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
 
 		return new SurveyResponse.GetDetail(survey);
+	}
+
+	public Slice<SurveyResponse.Get> getSurveys(Long userId, LocalDateTime cursorTime, Long cursorId,
+		Pageable pageable) {
+		Slice<Survey> surveys = surveyRepository.getSurveysByCursor(userId, cursorId, cursorTime, pageable);
+		List<SurveyResponse.Get> response = surveys.getContent().stream().map(SurveyResponse.Get::new).toList();
+
+		return new SliceImpl(response, surveys.getPageable(), surveys.hasNext());
 	}
 }
