@@ -134,6 +134,7 @@ class SurveyControllerTest {
 		perform.andExpect(status().isOk())
 			.andExpect(jsonPath("$.title").value(survey.getSurveyInfo().getTitle()))
 			.andExpect(jsonPath("$.description").value(survey.getSurveyInfo().getDescription()))
+			.andExpect(jsonPath("$.surveyStatus").value(survey.getSurveyStatus().name()))
 			.andExpect(jsonPath("$.questions[0].questionInfo.title").value(question1.getQuestionInfo().getTitle()))
 			.andExpect(jsonPath("$.questions[0].questionInfo.description").value(question1.getQuestionInfo().getDescription()))
 			.andExpect(jsonPath("$.questions[1].questionInfo.title").value(question2.getQuestionInfo().getTitle()))
