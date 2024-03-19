@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Survey extends TimeBaseEntity {
-	enum SurveyStatus {CREATE, REQUEST, SALE}
+	public enum Status {CREATE, REQUEST, SALE}
 
 	@Id
 	@Column(name = "survey_id")
@@ -47,7 +47,7 @@ public class Survey extends TimeBaseEntity {
 
 	@Column(name = "survey_status")
 	@Enumerated(value = EnumType.STRING)
-	private SurveyStatus surveyStatus;
+	private Status surveyStatus;
 
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
 	@JoinColumn(name = "survey_id")
@@ -57,12 +57,12 @@ public class Survey extends TimeBaseEntity {
 	@JoinColumn(name = "survey_id")
 	private final List<SurveyResult> surveyResults = new ArrayList<>();
 
-	private Survey(Creator creator, SurveyInfo surveyInfo, SurveyStatus surveyStatus) {
+	private Survey(Creator creator, SurveyInfo surveyInfo, Status surveyStatus) {
 		this(null, creator, surveyInfo, surveyStatus);
 	}
 
 	public static Survey init(Creator creator, SurveyInfo surveyInfo) {
-		return new Survey(creator, surveyInfo, SurveyStatus.CREATE);
+		return new Survey(creator, surveyInfo, Status.CREATE);
 	}
 
 	public void update(SurveyInfo surveyInfo) {

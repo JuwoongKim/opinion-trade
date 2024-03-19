@@ -1,6 +1,7 @@
 package com.juwoong.opiniontrade.survey.api;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,6 +45,14 @@ public class SurveyController {
 		String description = request.description();
 
 		surveyService.updateSurvey(surveyId, title, description);
+	}
+
+	@GetMapping(path = "/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public SurveyResponse.GetDetail getSurvey(
+		@PathVariable(name = "id") Long surveyId
+	) {
+		return surveyService.getSurvey(surveyId);
 	}
 
 }
