@@ -40,4 +40,11 @@ public class SurveyService {
 		SurveyInfo surveyInfo = SurveyInfo.init(title, description);
 		survey.update(surveyInfo);
 	}
+
+	public SurveyResponse.GetDetail getSurvey(Long surveyId) {
+		Survey survey = surveyRepository.findById(surveyId)
+			.orElseThrow(() -> new OpinionTradeException(NOT_FOUND_SURVEY));
+
+		return new SurveyResponse.GetDetail(survey);
+	}
 }

@@ -19,6 +19,10 @@ import com.juwoong.opiniontrade.global.exception.OpinionTradeException;
 import com.juwoong.opiniontrade.survey.api.request.SurveyRequest;
 import com.juwoong.opiniontrade.survey.application.SurveyService;
 import com.juwoong.opiniontrade.survey.application.response.SurveyResponse;
+import com.juwoong.opiniontrade.survey.domain.Question;
+import com.juwoong.opiniontrade.survey.domain.Survey;
+import com.juwoong.opiniontrade.survey.fixture.QuestionFixture;
+import com.juwoong.opiniontrade.survey.fixture.SurveyFixture;
 
 @WebMvcTest(SurveyController.class)
 class SurveyControllerTest {
@@ -46,15 +50,13 @@ class SurveyControllerTest {
 		when(surveyService.createSurvey(anyLong(), anyString(), anyString())).thenReturn(response);
 
 		// when then
-		mockMvc.perform(post("/surveys")
-				.contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/surveys").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(request))
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isCreated())
 			.andExpect(jsonPath("id").value(createdSurveyId));
 
-		verify(surveyService, times(1)).createSurvey(anyLong(), anyString(),
-			anyString());
+		verify(surveyService, times(1)).createSurvey(anyLong(), anyString(), anyString());
 	}
 
 	@Test
@@ -67,13 +69,11 @@ class SurveyControllerTest {
 		SurveyRequest.Create request = new SurveyRequest.Create(creatorId, title, description);
 
 		// when then
-		var resultActions = mockMvc.perform(post("/surveys")
-			.contentType(MediaType.APPLICATION_JSON)
+		var resultActions = mockMvc.perform(post("/surveys").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(request))
 			.accept(MediaType.APPLICATION_JSON));
 
-		resultActions.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("code").value("BAD_REQUEST"));
+		resultActions.andExpect(status().isBadRequest()).andExpect(jsonPath("code").value("BAD_REQUEST"));
 	}
 
 	@Test
@@ -88,10 +88,8 @@ class SurveyControllerTest {
 		doNothing().when(surveyService).updateSurvey(surveyId, title, description);
 
 		// when then
-		ResultActions result = mockMvc.perform(put("/surveys/{id}", surveyId)
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(objectMapper.writeValueAsString(request))
-		);
+		ResultActions result = mockMvc.perform(put("/surveys/{id}", surveyId).contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(request)));
 
 		result.andExpect(status().isNoContent());
 	}
@@ -104,17 +102,43 @@ class SurveyControllerTest {
 		String description = "surveyDescription";
 		SurveyRequest.Update request = new SurveyRequest.Update(title, description);
 
-		doThrow(new OpinionTradeException(NOT_FOUND_SURVEY))
-			.when(surveyService).updateSurvey(eq(surveyId), eq(title), eq(description));
+		doThrow(new OpinionTradeException(NOT_FOUND_SURVEY)).when(surveyService)
+			.updateSurvey(eq(surveyId), eq(title), eq(description));
 
 		// when then
-		ResultActions result = mockMvc.perform(put("/surveys/{id}", surveyId)
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(objectMapper.writeValueAsString(request))
-		);
+		ResultActions result = mockMvc.perform(put("/surveys/{id}", surveyId).contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(request)));
 
 		result.andExpect(status().isNotFound())
 			.andExpect(jsonPath("$.code").value(NOT_FOUND_SURVEY.getHttpStatus().name()))
 			.andExpect(jsonPath("$.message").value(NOT_FOUND_SURVEY.getMessage()));
+	}
+
+	@Test
+	@DisplayName("설문지 상세 조회 시 질문정보가 함께 조회된다.")
+	void getSurveyDetail_With_Questions_Success() throws Exception {
+		// given
+		Survey survey = SurveyFixture.SURVEY.getInstance();
+		Question question1 = QuestionFixture.PARAGRAPH.getInstance();
+		Question question2 = QuestionFixture.MULTIPLE_CHOICE.getInstance();
+		survey.createQuestion(question1);
+		survey.createQuestion(question2);
+
+		SurveyResponse.GetDetail response = new SurveyResponse.GetDetail(survey);
+		when(surveyService.getSurvey(anyLong())).thenReturn(response);
+
+		// when
+		ResultActions perform = mockMvc.perform(get("/surveys/{id}", 1L).accept(MediaType.APPLICATION_JSON));
+
+		// then
+		perform.andExpect(status().isOk())
+			.andExpect(jsonPath("$.title").value(survey.getSurveyInfo().getTitle()))
+			.andExpect(jsonPath("$.description").value(survey.getSurveyInfo().getDescription()))
+			.andExpect(jsonPath("$.surveyStatus").value(survey.getSurveyStatus().name()))
+			.andExpect(jsonPath("$.questions[0].questionInfo.title").value(question1.getQuestionInfo().getTitle()))
+			.andExpect(jsonPath("$.questions[0].questionInfo.description").value(question1.getQuestionInfo().getDescription()))
+			.andExpect(jsonPath("$.questions[1].questionInfo.title").value(question2.getQuestionInfo().getTitle()))
+			.andExpect(jsonPath("$.questions[1].questionInfo.description").value(
+				question2.getQuestionInfo().getDescription()));
 	}
 }

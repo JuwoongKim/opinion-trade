@@ -17,9 +17,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.juwoong.opiniontrade.global.exception.OpinionTradeException;
 import com.juwoong.opiniontrade.survey.application.response.SurveyResponse;
 import com.juwoong.opiniontrade.survey.domain.Creator;
+import com.juwoong.opiniontrade.survey.domain.Question;
 import com.juwoong.opiniontrade.survey.domain.Survey;
 import com.juwoong.opiniontrade.survey.domain.SurveyInfo;
 import com.juwoong.opiniontrade.survey.domain.repository.SurveyRepository;
+import com.juwoong.opiniontrade.survey.fixture.QuestionFixture;
+import com.juwoong.opiniontrade.survey.fixture.SurveyFixture;
 
 @ExtendWith(MockitoExtension.class)
 class SurveyServiceTest {
@@ -85,8 +88,26 @@ class SurveyServiceTest {
 
 		// when then
 		assertThatExceptionOfType(OpinionTradeException.class)
-			.isThrownBy(()->surveyService.updateSurvey(surveyId, title, description))
+			.isThrownBy(() -> surveyService.updateSurvey(surveyId, title, description))
 			.withMessage(NOT_FOUND_SURVEY.getMessage());
 	}
 
+	@Test
+	@DisplayName("설문지 상세 조회 포함된 질문을 함께 조회 한다.")
+	void getSurvey_Detail_With_NoExceptions() {
+		// given
+		Survey survey = SurveyFixture.SURVEY.getInstance();
+		Question question1 = QuestionFixture.PARAGRAPH.getInstance();
+		Question question2 = QuestionFixture.MULTIPLE_CHOICE.getInstance();
+		survey.createQuestion(question1);
+		survey.createQuestion(question2);
+
+		when(surveyRepository.findById(anyLong())).thenReturn(Optional.of(survey));
+
+		// when
+		SurveyResponse.GetDetail response = surveyService.getSurvey(1L);
+
+		// then
+		assertThat(response.questions().size()).isEqualTo(2);
+	}
 }

@@ -36,7 +36,7 @@ public class SurveyResultController {
 
 	@PutMapping("/{surveyId}/surveyResult")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void createSurveyResult(
+	public void updateSurveyResult(
 		@PathVariable Long surveyId,
 		@RequestBody ResultRequest.Update request
 	) {
