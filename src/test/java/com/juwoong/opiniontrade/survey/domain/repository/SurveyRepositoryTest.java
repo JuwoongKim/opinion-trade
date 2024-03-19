@@ -76,11 +76,13 @@ class SurveyRepositoryTest {
 		surveyRepository.save(survey4);
 
 		// 첫번째 페이징 조회 + 디폴트 값
+		Long creatorId = 1L;
 		Long defaultCursorId = 0L;
 		LocalDateTime defaultCursorDate = LocalDateTime.now();
 		Pageable pageable = PageRequest.of(0, 2);
 
 		Slice<Survey> surveys = surveyRepository.getSurveysByCursor(
+			creatorId,
 			defaultCursorId,
 			defaultCursorDate,
 			pageable
@@ -89,6 +91,7 @@ class SurveyRepositoryTest {
 		// 두번째 페이징 조회 + 이전 페이징 결과의 마지막 설문지
 		Survey pagingLastSurvey = surveys.getContent().get(1);
 		Slice<Survey> surveys2 = surveyRepository.getSurveysByCursor(
+			creatorId,
 			pagingLastSurvey.getId(),
 			pagingLastSurvey.getUpdatedAt(),
 			pageable

@@ -1,5 +1,10 @@
 package com.juwoong.opiniontrade.survey.api;
 
+import java.time.LocalDateTime;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,4 +61,19 @@ public class SurveyController {
 		return surveyService.getSurvey(surveyId);
 	}
 
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public Slice<SurveyResponse.Get> getSurveys(
+		@RequestParam Long userId,
+		@RequestParam(required = false) LocalDateTime cursorTime,
+		@RequestParam(defaultValue = "0") Long cursorId,
+		@RequestParam(defaultValue = "10") Integer size
+	) {
+		if (cursorTime == null) {
+			cursorTime = LocalDateTime.now();
+		}
+		Pageable pageable = PageRequest.of(0, size);
+
+		return surveyService.getSurveys(userId, cursorTime, cursorId, pageable);
+	}
 }

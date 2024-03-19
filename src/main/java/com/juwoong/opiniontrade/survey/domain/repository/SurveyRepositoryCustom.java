@@ -9,5 +9,5 @@ import com.juwoong.opiniontrade.survey.domain.Survey;
 
 public interface SurveyRepositoryCustom {
 
-	Slice<Survey> getSurveysByCursor(Long cursorId, LocalDateTime time, Pageable pageable);
+	Slice<Survey> getSurveysByCursor(Long userId, Long cursorId, LocalDateTime time, Pageable pageable);
 }

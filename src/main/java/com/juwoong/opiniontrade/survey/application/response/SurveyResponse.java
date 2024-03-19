@@ -28,4 +28,20 @@ public sealed interface SurveyResponse {
 			);
 		}
 	}
+
+	record Get(
+		Long surveyId,
+		String title,
+		String description,
+		Survey.Status surveyStatus
+	) implements SurveyResponse {
+		public Get(Survey survey) {
+			this(
+				survey.getId(),
+				survey.getSurveyInfo().getTitle(),
+				survey.getSurveyInfo().getDescription(),
+				survey.getSurveyStatus()
+			);
+		}
+	}
 }

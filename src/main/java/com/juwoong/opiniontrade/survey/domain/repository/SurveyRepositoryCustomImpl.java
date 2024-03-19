@@ -3,7 +3,6 @@ package com.juwoong.opiniontrade.survey.domain.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -21,9 +20,12 @@ public class SurveyRepositoryCustomImpl implements SurveyRepositoryCustom {
 	private QSurvey qSurvey = QSurvey.survey;
 
 	@Override
-	public Slice<Survey> getSurveysByCursor(Long cursorId, LocalDateTime time, Pageable pageable) {
+	public Slice<Survey> getSurveysByCursor(Long userId, Long cursorId, LocalDateTime time, Pageable pageable) {
 		List<Survey> surveys = queryFactory.selectFrom(qSurvey)
-			.where(cursor(cursorId, time))
+			.where(
+				qSurvey.creator.creatorId.eq(userId)
+					.and(cursor(cursorId, time))
+			)
 			.orderBy(qSurvey.updatedAt.desc(), qSurvey.id.asc())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
