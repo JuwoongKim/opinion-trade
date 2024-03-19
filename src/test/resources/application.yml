@@ -1,16 +1,14 @@
-
 spring:
-# 디비 커넥션 정보
   datasource:
-    url: ${LOCAL_DB_URL}
-    username: ${LOCAL_DB_USER}
-    password: ${LOCAL_DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
 
 # jpa 기본 설정
   jpa:
     open-in-view: true
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
       generate-ddl: true
@@ -20,12 +18,12 @@ spring:
         highlight_sql: true
         use_sql_comments: true
 
-# 실행되는 쿼리 줄력
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: debug
-        type:
-          descriptor:
-            sql: trace
+## 실행되는 쿼리 줄력
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: debug
+#        type:
+#          descriptor:
+#            sql: trace
