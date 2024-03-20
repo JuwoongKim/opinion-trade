@@ -107,7 +107,7 @@ public class Survey extends TimeBaseEntity {
 		result.updateAnswers(answers);
 	}
 
-	public Integer getTotalSurveyResultSize(){
+	public Integer getTotalSurveyResultSize() {
 		return surveyResults.size();
 	}
 
@@ -115,6 +115,11 @@ public class Survey extends TimeBaseEntity {
 		return surveyResults.get(index);
 	}
 
-	void updateSurveyResultAnswer(Respondent respondent, Answer answer) {
+	public List<Answer> getSurveyResultByQuestion(Long questionId) {
+		return surveyResults.stream()
+			.map(surveyResult -> surveyResult.getAnswerByQuestionId(questionId))
+			.filter(answer -> answer.isPresent())
+			.map(answer -> answer.get())
+			.toList();
 	}
 }
