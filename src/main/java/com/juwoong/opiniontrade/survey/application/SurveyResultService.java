@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.juwoong.opiniontrade.global.exception.OpinionTradeException;
 import com.juwoong.opiniontrade.survey.api.request.ResultRequest;
+import com.juwoong.opiniontrade.survey.application.response.SurveyResultResponse;
 import com.juwoong.opiniontrade.survey.domain.Answer;
 import com.juwoong.opiniontrade.survey.domain.Respondent;
 import com.juwoong.opiniontrade.survey.domain.Survey;
@@ -45,6 +46,17 @@ public class SurveyResultService {
 			.toList();
 
 		survey.updateSurveyResult(respondentId, answers);
+	}
+
+	public SurveyResultResponse.GetByRespondent getSurveyResultByRespondent(Long surveyId, Integer index) {
+		Survey survey = findSurveyById(surveyId);
+		Integer totalSurveyResultSize = survey.getTotalSurveyResultSize();
+		if (index >= totalSurveyResultSize){
+			throw new OpinionTradeException(INDEX_OUT_OF_BOUNDS);
+		}
+		SurveyResult surveyResult = survey.getSurveyResultByRespondent(index);
+
+		return new SurveyResultResponse.GetByRespondent(totalSurveyResultSize, index, surveyResult);
 	}
 
 	private Survey findSurveyById(Long id) {
