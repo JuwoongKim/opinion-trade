@@ -18,6 +18,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.juwoong.opiniontrade.survey.api.request.ResultRequest;
 import com.juwoong.opiniontrade.survey.application.SurveyResultService;
+import com.juwoong.opiniontrade.survey.application.response.SurveyResultResponse;
+import com.juwoong.opiniontrade.survey.domain.Survey;
+import com.juwoong.opiniontrade.survey.domain.SurveyResult;
+import com.juwoong.opiniontrade.survey.fixture.SurveyFixture;
+import com.juwoong.opiniontrade.survey.fixture.SurveyResultFixture;
 
 @WebMvcTest(SurveyResultController.class)
 class SurveyResultControllerTest {
@@ -68,5 +73,35 @@ class SurveyResultControllerTest {
 		result.andExpect(status().isNoContent());
 
 		verify(surveyResultService, times(1)).updateSurveyResult(anyLong(), anyLong(), anyList());
+	}
+
+	@Test
+	@DisplayName("응답자 기준 설문결과 조회시 200 상태 코드와 반환값을 응답 한다")
+	void getSurveyResultByRespondent_Success() throws Exception {
+		// given
+		Long surveyId = 1L;
+		SurveyResult surveyResult = SurveyResultFixture.SURVEY_RESULT.getInstance();
+		Integer totalRespondentSize = 10;
+		Integer currentIndex = 1;
+
+		SurveyResultResponse.GetByRespondent response = new SurveyResultResponse.GetByRespondent(totalRespondentSize,
+			currentIndex, surveyResult);
+
+		when(surveyResultService.getSurveyResultByRespondent(anyLong(), anyInt())).thenReturn(response);
+
+		// when
+		ResultActions result = mockMvc.perform(
+			get("/surveys/{surveyId}/surveyResult/byRespondent", surveyId)
+				.param("nextRespondent", currentIndex.toString())
+				.accept(MediaType.APPLICATION_JSON)
+		);
+
+		// then
+		result.andExpect(status().isOk())
+			.andExpect(jsonPath("$.totalRespondents").value(totalRespondentSize))
+			.andExpect(jsonPath("$.currentRespondent").value(currentIndex))
+			.andExpect(jsonPath("$.respondentId").value(surveyResult.getRespondent().getRespondentId()))
+			.andExpect(jsonPath("$.answers[0].questionId").value(surveyResult.getAnswers().get(0).getQuestionId()))
+			.andExpect(jsonPath("$.answers[0].content").value(surveyResult.getAnswers().get(0).getContent()));
 	}
 }
