@@ -21,4 +21,11 @@ public sealed interface SurveyResultResponse {
 			);
 		}
 	}
+
+	record GetByQuestion(
+		Long questionId,
+		List<Answer> answers
+	) implements SurveyResultResponse {
+	}
+
 }

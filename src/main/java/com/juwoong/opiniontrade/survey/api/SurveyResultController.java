@@ -48,13 +48,22 @@ public class SurveyResultController {
 
 		surveyResultService.updateSurveyResult(surveyId, respondentId, answers);
 	}
+
 	@GetMapping("/{surveyId}/surveyResult/byRespondent")
 	@ResponseStatus(HttpStatus.OK)
 	public SurveyResultResponse.GetByRespondent getSurveyResultByRespondent(
 		@PathVariable Long surveyId,
 		@RequestParam(defaultValue = "0") Integer nextRespondent
-	){
+	) {
 		return surveyResultService.getSurveyResultByRespondent(surveyId, nextRespondent);
 	}
 
+	@GetMapping("/{surveyId}/surveyResult/byQuestion")
+	@ResponseStatus(HttpStatus.OK)
+	public SurveyResultResponse.GetByQuestion getSurveyResponseByQuestion(
+		@PathVariable Long surveyId,
+		@RequestParam Long questionId
+	) {
+		return surveyResultService.getSurveyResultByQuestion(surveyId, questionId);
+	}
 }

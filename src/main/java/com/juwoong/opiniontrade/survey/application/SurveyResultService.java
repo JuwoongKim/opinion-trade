@@ -51,12 +51,19 @@ public class SurveyResultService {
 	public SurveyResultResponse.GetByRespondent getSurveyResultByRespondent(Long surveyId, Integer index) {
 		Survey survey = findSurveyById(surveyId);
 		Integer totalSurveyResultSize = survey.getTotalSurveyResultSize();
-		if (index >= totalSurveyResultSize){
+		if (index >= totalSurveyResultSize) {
 			throw new OpinionTradeException(INDEX_OUT_OF_BOUNDS);
 		}
 		SurveyResult surveyResult = survey.getSurveyResultByRespondent(index);
 
 		return new SurveyResultResponse.GetByRespondent(totalSurveyResultSize, index, surveyResult);
+	}
+
+	public SurveyResultResponse.GetByQuestion getSurveyResultByQuestion(Long surveyId, Long questionId) {
+		Survey survey = findSurveyById(surveyId);
+		List<Answer> answers = survey.getSurveyResultByQuestion(questionId);
+
+		return new SurveyResultResponse.GetByQuestion(questionId, answers);
 	}
 
 	private Survey findSurveyById(Long id) {

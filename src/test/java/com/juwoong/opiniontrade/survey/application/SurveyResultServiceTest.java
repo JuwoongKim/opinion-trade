@@ -97,4 +97,28 @@ class SurveyResultServiceTest {
 			.isInstanceOf(OpinionTradeException.class)
 			.hasMessageContaining("범위에 없는 값을 요청했습니다.");
 	}
+
+	@Test
+	@DisplayName("질문별 설문 결과 조회에 성공한다.")
+	void getSurveyResultByQuestion_Success() {
+		// given
+		Survey survey = SurveyFixture.SURVEY.getInstance();
+		List<SurveyResult> results = List.of(
+			SurveyResultFixture.SURVEY_RESULT_WITH_ANSWER_FOR_QUESTION_ID_ONE.getInstance(),
+			SurveyResultFixture.SURVEY_RESULT_WITH_ANSWER_FOR_QUESTION_ID_ONE.getInstance(),
+			SurveyResultFixture.SURVEY_RESULT_WITH_ANSWER_FOR_QUESTION_ID_TWO.getInstance()
+		);
+		results.forEach(surveyResult -> survey.receiveSurveyResult(surveyResult));
+		when(surveyRepository.findById(anyLong())).thenReturn(Optional.of(survey));
+
+		// when
+		SurveyResultResponse.GetByQuestion response = surveyResultService.getSurveyResultByQuestion(1L, 1L);
+
+		// then
+		assertAll(
+			() -> assertThat(response.answers().size()).isEqualTo(2),
+			() -> assertThat(response.answers().get(0).getQuestionId()).isEqualTo(1L),
+			() -> assertThat(response.answers().get(1).getQuestionId()).isEqualTo(1L)
+		);
+	}
 }

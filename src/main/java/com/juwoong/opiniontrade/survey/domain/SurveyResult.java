@@ -1,6 +1,7 @@
 package com.juwoong.opiniontrade.survey.domain;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.juwoong.opiniontrade.global.entity.TimeBaseEntity;
 
@@ -45,4 +46,9 @@ public class SurveyResult extends TimeBaseEntity {
 		this.answers = answers;
 	}
 
+	public Optional<Answer> getAnswerByQuestionId(Long questionId) {
+		return answers.stream()
+			.filter(answer -> answer.getQuestionId().equals(questionId))
+			.findFirst();
+	}
 }
