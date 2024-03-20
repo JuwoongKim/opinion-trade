@@ -19,9 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.juwoong.opiniontrade.survey.api.request.ResultRequest;
 import com.juwoong.opiniontrade.survey.application.SurveyResultService;
 import com.juwoong.opiniontrade.survey.application.response.SurveyResultResponse;
-import com.juwoong.opiniontrade.survey.domain.Survey;
+import com.juwoong.opiniontrade.survey.domain.Answer;
 import com.juwoong.opiniontrade.survey.domain.SurveyResult;
-import com.juwoong.opiniontrade.survey.fixture.SurveyFixture;
 import com.juwoong.opiniontrade.survey.fixture.SurveyResultFixture;
 
 @WebMvcTest(SurveyResultController.class)
@@ -103,5 +102,38 @@ class SurveyResultControllerTest {
 			.andExpect(jsonPath("$.respondentId").value(surveyResult.getRespondent().getRespondentId()))
 			.andExpect(jsonPath("$.answers[0].questionId").value(surveyResult.getAnswers().get(0).getQuestionId()))
 			.andExpect(jsonPath("$.answers[0].content").value(surveyResult.getAnswers().get(0).getContent()));
+	}
+
+	@Test
+	@DisplayName("질문 기준 설문 결과 조회시 200 상태 코드와 반환값을 응답 한다")
+	void getSurveyResultByQuestion_Success() throws Exception {
+		// given
+		Long surveyId = 1L;
+		Long questionId = 1L;
+
+		List<Answer> answers = List.of(
+			Answer.init(questionId, "contents"),
+			Answer.init(questionId, "contents")
+		);
+
+		SurveyResultResponse.GetByQuestion response = new SurveyResultResponse.GetByQuestion(questionId,
+			answers);
+
+		when(surveyResultService.getSurveyResultByQuestion(anyLong(), anyLong())).thenReturn(response);
+
+		// when
+		ResultActions result = mockMvc.perform(
+			get("/surveys/{surveyId}/surveyResult/byQuestion", surveyId)
+				.param("questionId", questionId.toString())
+				.accept(MediaType.APPLICATION_JSON)
+		);
+
+		// then
+		result.andExpect(status().isOk())
+			.andExpect(jsonPath("$.questionId").value(questionId))
+			.andExpect(jsonPath("$.answers[0].questionId").value(answers.get(0).getQuestionId()))
+			.andExpect(jsonPath("$.answers[0].content").value(answers.get(0).getContent()))
+			.andExpect(jsonPath("$.answers[1].questionId").value(answers.get(1).getQuestionId()))
+			.andExpect(jsonPath("$.answers[1].content").value(answers.get(1).getContent()));
 	}
 }

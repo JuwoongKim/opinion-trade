@@ -66,5 +66,4 @@ public class SurveyResultController {
 	) {
 		return surveyResultService.getSurveyResultByQuestion(surveyId, questionId);
 	}
-
 }

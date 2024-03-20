@@ -7,7 +7,9 @@ import com.juwoong.opiniontrade.survey.domain.Respondent;
 import com.juwoong.opiniontrade.survey.domain.SurveyResult;
 
 public enum SurveyResultFixture {
-	SURVEY_RESULT(1l, 1l, "content");
+	SURVEY_RESULT(1l, 1l, "content"),
+	SURVEY_RESULT_WITH_ANSWER_FOR_QUESTION_ID_ONE(1l, 1l, "content"),
+	SURVEY_RESULT_WITH_ANSWER_FOR_QUESTION_ID_TWO(1l, 2l, "content");
 	private Long respondentId;
 	private Long questionId;
 	private String answerContent;
